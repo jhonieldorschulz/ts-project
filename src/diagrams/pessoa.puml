@@ -1,0 +1,20 @@
+@startuml
+class Pessoa{
+    -nome: String 
+    -idade: Integer 
+    +falar()
+}
+
+class Ocupacao{
+    -descricao: String 
+    -salario: Double 
+}
+
+
+class Aluno extends Pessoa{
+    -matricula: String 
+}
+
+Pessoa <-- Ocupacao
+
+@enduml

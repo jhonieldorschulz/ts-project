@@ -1,0 +1,13 @@
+@startuml
+abstract class Animal {
+    -nome: String 
+    +emitirSom(): void
+}
+
+class Cachorro extends Animal{
+     +emitirSom(): void
+}
+
+
+
+@enduml
