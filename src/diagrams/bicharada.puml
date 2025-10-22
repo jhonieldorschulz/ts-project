@@ -8,6 +8,9 @@ class Cachorro extends Animal{
      +emitirSom(): void
 }
 
+class Gato extends Animal{
+    +emitirSom():void
+}
 
 
 @enduml
