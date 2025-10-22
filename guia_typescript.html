@@ -1,0 +1,2001 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Completo TypeScript: POO, TDD, Interfaces e Associações</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3178c6',
+                        secondary: '#f7df1e',
+                        dark: '#1e293b',
+                        accent: '#10b981',
+                        test: '#ef4444'
+                    }
+                }
+            }
+        }
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            securityLevel: 'loose'
+        });
+    </script>
+    <style>
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        .test-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #ef4444;
+        }
+        .mermaid {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border: 1px solid #e2e8f0;
+        }
+        .step {
+            counter-increment: step-counter;
+            margin-bottom: 1.5rem;
+        }
+        .step:before {
+            content: counter(step-counter);
+            background-color: #3178c6;
+            color: white;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        .tdd-cycle {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+        .tdd-step {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 0 0.5rem;
+        }
+        .red { background-color: #fecaca; color: #dc2626; }
+        .green { background-color: #bbf7d0; color: #16a34a; }
+        .blue { background-color: #bfdbfe; color: #2563eb; }
+        .exercise-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #3b82f6;
+        }
+        .challenge-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .concept-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .association-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-dark">
+    <header class="bg-primary text-white py-8 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-2">Guia Completo TypeScript</h1>
+            <p class="text-xl text-blue-100">POO, TDD, Interfaces, Associações e Collections com Exemplos Práticos</p>
+        </div>
+    </header>
+
+    <nav class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-6 py-4 overflow-x-auto">
+                <a href="#introducao" class="whitespace-nowrap hover:text-primary font-medium">Introdução</a>
+                <a href="#setup" class="whitespace-nowrap hover:text-primary font-medium">Setup</a>
+                <a href="#tdd" class="whitespace-nowrap hover:text-primary font-medium">TDD</a>
+                <a href="#poo" class="whitespace-nowrap hover:text-primary font-medium">POO</a>
+                <a href="#interfaces" class="whitespace-nowrap hover:text-primary font-medium">Interfaces</a>
+                <a href="#associacoes" class="whitespace-nowrap hover:text-primary font-medium">Associações</a>
+                <a href="#collections" class="whitespace-nowrap hover:text-primary font-medium">Collections</a>
+                <a href="#exercicios" class="whitespace-nowrap hover:text-primary font-medium">Exercícios</a>
+                <a href="#desafio" class="whitespace-nowrap hover:text-primary font-medium">Desafio</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Introdução -->
+        <section id="introducao" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Introdução ao TypeScript</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-4">O que é TypeScript?</h3>
+                <p class="mb-4 text-lg">TypeScript é um <strong>superset tipado do JavaScript</strong> que compila para JavaScript puro. Desenvolvido pela Microsoft, adiciona tipos estáticos e recursos avançados ao JavaScript.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-3 text-primary">🎯 Vantagens do TypeScript</h4>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Tipagem Estática</strong> - Detecção de erros em tempo de compilação</li>
+                            <li><strong>IntelliSense Melhorado</strong> - Autocompletar mais inteligente</li>
+                            <li><strong>Refatoração Segura</strong> - Mudanças no código com confiança</li>
+                            <li><strong>POO Avançada</strong> - Interfaces, classes abstratas, genéricos</li>
+                            <li><strong>Manutenibilidade</strong> - Código mais legível e sustentável</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-green-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-semibold mb-3 text-accent">TypeScript vs JavaScript</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-green-100">
+                                        <th class="border border-green-300 px-4 py-2">Característica</th>
+                                        <th class="border border-green-300 px-4 py-2">JavaScript</th>
+                                        <th class="border border-green-300 px-4 py-2">TypeScript</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border border-green-300 px-4 py-2">Tipagem</td>
+                                        <td class="border border-green-300 px-4 py-2">Dinâmica</td>
+                                        <td class="border border-green-300 px-4 py-2">Estática</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-green-300 px-4 py-2">Compilação</td>
+                                        <td class="border border-green-300 px-4 py-2">Interpretado</td>
+                                        <td class="border border-green-300 px-4 py-2">Compilado para JS</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-green-300 px-4 py-2">Interfaces</td>
+                                        <td class="border border-green-300 px-4 py-2">Não suporta</td>
+                                        <td class="border border-green-300 px-4 py-2">Suporte completo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border border-green-300 px-4 py-2">Decorators</td>
+                                        <td class="border border-green-300 px-4 py-2">Proposta ES</td>
+                                        <td class="border border-green-300 px-4 py-2">Suporte experimental</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup do Projeto -->
+        <section id="setup" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Ambiente e Configuração</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-6">Configuração Completa do Projeto TypeScript</h3>
+                
+                <div class="space-y-6">
+                    <div class="step flex items-start">
+                        <div class="ml-8">
+                            <h4 class="text-xl font-medium mb-2">1. Instalar Node.js e NPM</h4>
+                            <div class="code-block">
+                                <pre><code># Verificar se Node.js está instalado
+node --version
+npm --version
+
+# Se não tiver, baixe em: https://nodejs.org</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step flex items-start">
+                        <div class="ml-8">
+                            <h4 class="text-xl font-medium mb-2">2. Criar e Configurar o Projeto</h4>
+                            <div class="code-block">
+                                <pre><code># Criar pasta do projeto
+mkdir meu-projeto-typescript
+cd meu-projeto-typescript
+
+# Inicializar package.json
+npm init -y
+
+# Instalar TypeScript
+npm install --save-dev typescript
+npm install --save-dev @types/node</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step flex items-start">
+                        <div class="ml-8">
+                            <h4 class="text-xl font-medium mb-2">3. Configuração do TypeScript</h4>
+                            <p class="mb-3">Crie o arquivo <code class="bg-gray-200 px-1 rounded">tsconfig.json</code>:</p>
+                            <div class="code-block">
+                                <pre><code>{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step flex items-start">
+                        <div class="ml-8">
+                            <h4 class="text-xl font-medium mb-2">4. Configurar Ambiente de Testes</h4>
+                            <div class="code-block">
+                                <pre><code># Instalar Jest para testes
+npm install --save-dev jest ts-jest @types/jest
+
+# Configurar Jest (jest.config.js)
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/src', '<rootDir>/tests'],
+  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+  collectCoverageFrom: ['src/**/*.ts'],
+  coverageDirectory: 'coverage',
+};
+
+# Adicionar scripts ao package.json
+{
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TDD -->
+        <section id="tdd" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Test-Driven Development (TDD)</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="concept-box">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">🧪 O que é TDD?</h3>
+                    <p class="mb-3"><strong>Test-Driven Development (TDD)</strong> é uma metodologia de desenvolvimento de software onde você escreve os testes antes de escrever o código de produção.</p>
+                    <p>O conceito central é simples: <strong>"Test First, Code Later"</strong> (Teste Primeiro, Código Depois).</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-4">O Ciclo TDD: RED → GREEN → REFACTOR</h3>
+                
+                <div class="tdd-cycle">
+                    <div class="tdd-step red">
+                        <h4 class="font-bold text-lg">RED</h4>
+                        <p class="font-semibold">Escreva um teste que falhe</p>
+                        <p class="text-sm mt-2">Defina o comportamento esperado antes de implementar</p>
+                    </div>
+                    <div class="tdd-step green">
+                        <h4 class="font-bold text-lg">GREEN</h4>
+                        <p class="font-semibold">Faça o teste passar</p>
+                        <p class="text-sm mt-2">Implemente a solução mais simples possível</p>
+                    </div>
+                    <div class="tdd-step blue">
+                        <h4 class="font-bold text-lg">REFACTOR</h4>
+                        <p class="font-semibold">Melhore o código</p>
+                        <p class="text-sm mt-2">Aprimore a qualidade mantendo os testes verdes</p>
+                    </div>
+                </div>
+
+                <div class="concept-box">
+                    <h4 class="text-xl font-semibold mb-3">📝 Anatomia de um Teste no Jest</h4>
+                    <div class="test-block">
+                        <pre><code>// describe - Agrupa testes relacionados
+describe('NomeDaClasse', () => {
+    
+    // test ou it - Define um teste individual
+    test('deve fazer algo específico', () => {
+        // Arrange - Preparar o cenário
+        const objeto = new MinhaClasse();
+        
+        // Act - Executar a ação
+        const resultado = objeto.metodo();
+        
+        // Assert - Verificar o resultado
+        expect(resultado).toBe(valorEsperado);
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-4">Exemplo Prático: Classe Calculadora com TDD</h3>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3 text-test">🔴 Fase RED - Testes que Falham</h4>
+                    <div class="test-block">
+                        <pre><code>// tests/Calculadora.test.ts
+import { Calculadora } from '../src/Calculadora';
+
+describe('Calculadora', () => {
+    let calculadora: Calculadora;
+
+    beforeEach(() => {
+        calculadora = new Calculadora();
+    });
+
+    test('deve somar dois números corretamente', () => {
+        expect(calculadora.somar(2, 3)).toBe(5);
+    });
+
+    test('deve subtrair dois números corretamente', () => {
+        expect(calculadora.subtrair(5, 3)).toBe(2);
+    });
+
+    test('deve multiplicar dois números corretamente', () => {
+        expect(calculadora.multiplicar(4, 3)).toBe(12);
+    });
+
+    test('deve dividir dois números corretamente', () => {
+        expect(calculadora.dividir(10, 2)).toBe(5);
+    });
+
+    test('deve lançar erro ao dividir por zero', () => {
+        expect(() => calculadora.dividir(10, 0))
+            .toThrow('Divisão por zero não é permitida');
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3">🟢 Fase GREEN - Implementação Mínima</h4>
+                    <div class="code-block">
+                        <pre><code>// src/Calculadora.ts
+export class Calculadora {
+    public somar(a: number, b: number): number {
+        return a + b;
+    }
+
+    public subtrair(a: number, b: number): number {
+        return a - b;
+    }
+
+    public multiplicar(a: number, b: number): number {
+        return a * b;
+    }
+
+    public dividir(a: number, b: number): number {
+        if (b === 0) {
+            throw new Error('Divisão por zero não é permitida');
+        }
+        return a / b;
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h4 class="font-semibold text-lg mb-2">✅ Testes Finais da Calculadora</h4>
+                    <div class="test-block">
+                        <pre><code>// tests/Calculadora.test.ts (completo)
+import { Calculadora } from '../src/Calculadora';
+
+describe('Calculadora', () => {
+    let calculadora: Calculadora;
+
+    beforeEach(() => {
+        calculadora = new Calculadora();
+    });
+
+    test('deve somar dois números corretamente', () => {
+        expect(calculadora.somar(2, 3)).toBe(5);
+        expect(calculadora.somar(-1, 1)).toBe(0);
+    });
+
+    test('deve subtrair dois números corretamente', () => {
+        expect(calculadora.subtrair(5, 3)).toBe(2);
+        expect(calculadora.subtrair(3, 5)).toBe(-2);
+    });
+
+    test('deve multiplicar dois números corretamente', () => {
+        expect(calculadora.multiplicar(4, 3)).toBe(12);
+        expect(calculadora.multiplicar(0, 5)).toBe(0);
+    });
+
+    test('deve dividir dois números corretamente', () => {
+        expect(calculadora.dividir(10, 2)).toBe(5);
+        expect(calculadora.dividir(5, 2)).toBe(2.5);
+    });
+
+    test('deve lançar erro ao dividir por zero', () => {
+        expect(() => calculadora.dividir(10, 0))
+            .toThrow('Divisão por zero não é permitida');
+    });
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POO em TypeScript -->
+        <section id="poo" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Programação Orientada a Objetos em TypeScript</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-6">Os 4 Pilares da POO com Exemplos Práticos</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Encapsulamento -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-2xl font-semibold mb-4 text-dark">1. Encapsulamento</h4>
+                        <p class="mb-4">Ocultar detalhes internos e controlar o acesso aos dados através de modificadores.</p>
+                        
+                        <div class="mermaid">
+                            classDiagram
+                                class ContaBancaria {
+                                    -saldo: number
+                                    -numero: string
+                                    +depositar(valor: number) void
+                                    +sacar(valor: number) boolean
+                                    +getSaldo() number
+                                }
+                        </div>
+                        
+                        <div class="code-block mt-4">
+                            <pre><code>class ContaBancaria {
+    private saldo: number;
+    private numero: string;
+
+    constructor(numero: string, saldoInicial: number = 0) {
+        this.numero = numero;
+        this.saldo = saldoInicial;
+    }
+
+    public depositar(valor: number): void {
+        if (valor > 0) {
+            this.saldo += valor;
+        }
+    }
+
+    public sacar(valor: number): boolean {
+        if (valor > 0 && this.saldo >= valor) {
+            this.saldo -= valor;
+            return true;
+        }
+        return false;
+    }
+
+    public getSaldo(): number {
+        return this.saldo;
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Herança -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-2xl font-semibold mb-4 text-dark">2. Herança</h4>
+                        <p class="mb-4">Permite que classes herdem propriedades e métodos de outras classes.</p>
+                        
+                        <div class="mermaid">
+                            classDiagram
+                                class Veiculo {
+                                    -marca: string
+                                    -modelo: string
+                                    +acelerar() void
+                                    +frear() void
+                                }
+                                class Carro {
+                                    -numeroPortas: number
+                                    +abrirPorta() void
+                                }
+                                class Moto {
+                                    -cilindradas: number
+                                    +empinar() void
+                                }
+                                Veiculo <|-- Carro
+                                Veiculo <|-- Moto
+                        </div>
+                        
+                        <div class="code-block mt-4">
+                            <pre><code>class Veiculo {
+    protected marca: string;
+    protected modelo: string;
+
+    constructor(marca: string, modelo: string) {
+        this.marca = marca;
+        this.modelo = modelo;
+    }
+
+    public acelerar(): void {
+        console.log(`${this.marca} ${this.modelo} acelerando...`);
+    }
+
+    public frear(): void {
+        console.log(`${this.marca} ${this.modelo} freando...`);
+    }
+}
+
+class Carro extends Veiculo {
+    private numeroPortas: number;
+
+    constructor(marca: string, modelo: string, numeroPortas: number) {
+        super(marca, modelo);
+        this.numeroPortas = numeroPortas;
+    }
+
+    public abrirPorta(): void {
+        console.log(`Abrindo ${this.numeroPortas} portas.`);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Polimorfismo -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-2xl font-semibold mb-4 text-dark">3. Polimorfismo</h4>
+                        <p class="mb-4">Objetos de diferentes classes podem ser tratados de forma uniforme.</p>
+                        
+                        <div class="mermaid">
+                            classDiagram
+                                class Forma {
+                                    +calcularArea()* number
+                                }
+                                class Retangulo {
+                                    -largura: number
+                                    -altura: number
+                                    +calcularArea() number
+                                }
+                                class Circulo {
+                                    -raio: number
+                                    +calcularArea() number
+                                }
+                                Forma <|-- Retangulo
+                                Forma <|-- Circulo
+                        </div>
+                        
+                        <div class="code-block mt-4">
+                            <pre><code>abstract class Forma {
+    abstract calcularArea(): number;
+}
+
+class Retangulo extends Forma {
+    constructor(private largura: number, private altura: number) {
+        super();
+    }
+
+    calcularArea(): number {
+        return this.largura * this.altura;
+    }
+}
+
+class Circulo extends Forma {
+    constructor(private raio: number) {
+        super();
+    }
+
+    calcularArea(): number {
+        return Math.PI * this.raio * this.raio;
+    }
+}
+
+// Uso polimórfico
+const formas: Forma[] = [
+    new Retangulo(10, 5),
+    new Circulo(7)
+];
+
+formas.forEach(forma => {
+    console.log(`Área: ${forma.calcularArea()}`);
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Abstração -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-2xl font-semibold mb-4 text-dark">4. Abstração</h4>
+                        <p class="mb-4">Definir contratos através de interfaces e classes abstratas.</p>
+                        
+                        <div class="mermaid">
+                            classDiagram
+                                class Animal {
+                                    +fazerSom()* void
+                                    +mover()* void
+                                }
+                                class Cachorro {
+                                    +fazerSom() void
+                                    +mover() void
+                                }
+                                class Gato {
+                                    +fazerSom() void
+                                    +mover() void
+                                }
+                                Animal <|-- Cachorro
+                                Animal <|-- Gato
+                        </div>
+                        
+                        <div class="code-block mt-4">
+                            <pre><code>interface Animal {
+    fazerSom(): void;
+    mover(): void;
+}
+
+abstract class Mamifero implements Animal {
+    constructor(protected nome: string) {}
+
+    abstract fazerSom(): void;
+
+    mover(): void {
+        console.log(`${this.nome} está se movendo.`);
+    }
+}
+
+class Cachorro extends Mamifero {
+    fazerSom(): void {
+        console.log("Au Au!");
+    }
+}
+
+class Gato extends Mamifero {
+    fazerSom(): void {
+        console.log("Miau!");
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interfaces em TypeScript -->
+        <section id="interfaces" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Abstração com Interfaces em TypeScript</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="concept-box">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">🎯 O que são Interfaces?</h3>
+                    <p class="mb-3">Interfaces em TypeScript definem <strong>contratos</strong> que as classes devem seguir. Elas especificam <strong>o que</strong> uma classe deve fazer, mas não <strong>como</strong> deve fazer.</p>
+                    <p>Interfaces permitem <strong>desacoplamento</strong> e <strong>polimorfismo</strong> no código.</p>
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-4">Tipos de Interfaces</h3>
+
+                <!-- Interface para Comportamentos -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">1. Interface para Comportamentos</h4>
+                    <p class="mb-4">Define comportamentos que podem ser implementados por múltiplas classes.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class Voador {
+                                <<interface>>
+                                +voar()* void
+                            }
+                            class Nadador {
+                                <<interface>>
+                                +nadar()* void
+                            }
+                            class Pato {
+                                +voar() void
+                                +nadar() void
+                            }
+                            class Pinguim {
+                                +nadar() void
+                            }
+                            Voador <|.. Pato
+                            Nadador <|.. Pato
+                            Nadador <|.. Pinguim
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>// Interfaces de comportamento
+interface Voador {
+    voar(): void;
+}
+
+interface Nadador {
+    nadar(): void;
+}
+
+interface Grasnador {
+    grasnar(): void;
+}
+
+// Classes implementando interfaces
+class Pato implements Voador, Nadador, Grasnador {
+    voar(): void {
+        console.log("Pato voando...");
+    }
+    
+    nadar(): void {
+        console.log("Pato nadando...");
+    }
+    
+    grasnar(): void {
+        console.log("Quack! Quack!");
+    }
+}
+
+class Pinguim implements Nadador {
+    nadar(): void {
+        console.log("Pinguim nadando rapidamente!");
+    }
+}
+
+// Uso polimórfico
+const animaisAquaticos: Nadador[] = [
+    new Pato(),
+    new Pinguim()
+];
+
+animaisAquaticos.forEach(animal => animal.nadar());</code></pre>
+                    </div>
+                </div>
+
+                <!-- Interface para Serviços -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">2. Interface para Serviços</h4>
+                    <p class="mb-4">Define contratos para serviços que podem ter múltiplas implementações.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class RepositorioUsuarios {
+                                <<interface>>
+                                +salvar(usuario: Usuario)* void
+                                +buscarPorId(id: number)* Usuario
+                                +listarTodos()* Usuario[]
+                            }
+                            class RepositorioUsuariosMemoria {
+                                +salvar(usuario: Usuario) void
+                                +buscarPorId(id: number) Usuario
+                                +listarTodos() Usuario[]
+                            }
+                            class RepositorioUsuariosBanco {
+                                +salvar(usuario: Usuario) void
+                                +buscarPorId(id: number) Usuario
+                                +listarTodos() Usuario[]
+                            }
+                            RepositorioUsuarios <|.. RepositorioUsuariosMemoria
+                            RepositorioUsuarios <|.. RepositorioUsuariosBanco
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>// Interface para repositório
+interface Usuario {
+    id: number;
+    nome: string;
+    email: string;
+}
+
+interface RepositorioUsuarios {
+    salvar(usuario: Usuario): void;
+    buscarPorId(id: number): Usuario | undefined;
+    listarTodos(): Usuario[];
+}
+
+// Implementação em memória
+class RepositorioUsuariosMemoria implements RepositorioUsuarios {
+    private usuarios: Usuario[] = [];
+
+    salvar(usuario: Usuario): void {
+        const index = this.usuarios.findIndex(u => u.id === usuario.id);
+        if (index >= 0) {
+            this.usuarios[index] = usuario;
+        } else {
+            this.usuarios.push(usuario);
+        }
+    }
+
+    buscarPorId(id: number): Usuario | undefined {
+        return this.usuarios.find(usuario => usuario.id === id);
+    }
+
+    listarTodos(): Usuario[] {
+        return [...this.usuarios];
+    }
+}
+
+// Serviço que usa a interface (injeção de dependência)
+class UsuarioService {
+    constructor(private repositorio: RepositorioUsuarios) {}
+
+    criarUsuario(nome: string, email: string): Usuario {
+        const usuario: Usuario = {
+            id: Date.now(),
+            nome,
+            email
+        };
+        this.repositorio.salvar(usuario);
+        return usuario;
+    }
+
+    buscarUsuario(id: number): Usuario | undefined {
+        return this.repositorio.buscarPorId(id);
+    }
+}
+
+// Testes com interface
+describe('UsuarioService', () => {
+    test('deve criar usuário com repositório em memória', () => {
+        const repositorio = new RepositorioUsuariosMemoria();
+        const service = new UsuarioService(repositorio);
+        
+        const usuario = service.criarUsuario("João", "joao@email.com");
+        expect(usuario.nome).toBe("João");
+        expect(service.buscarUsuario(usuario.id)).toEqual(usuario);
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Interface para Estratégias -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">3. Interface para Estratégias (Strategy Pattern)</h4>
+                    <p class="mb-4">Define algoritmos intercambiáveis que podem ser usados pelo mesmo cliente.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class EstrategiaPagamento {
+                                <<interface>>
+                                +processarPagamento(valor: number)* boolean
+                            }
+                            class CartaoCredito {
+                                +processarPagamento(valor: number) boolean
+                            }
+                            class PayPal {
+                                +processarPagamento(valor: number) boolean
+                            }
+                            class Bitcoin {
+                                +processarPagamento(valor: number) boolean
+                            }
+                            EstrategiaPagamento <|.. CartaoCredito
+                            EstrategiaPagamento <|.. PayPal
+                            EstrategiaPagamento <|.. Bitcoin
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>// Interface para estratégia de pagamento
+interface EstrategiaPagamento {
+    processarPagamento(valor: number): boolean;
+}
+
+// Implementações concretas
+class CartaoCredito implements EstrategiaPagamento {
+    processarPagamento(valor: number): boolean {
+        console.log(`Processando pagamento de R$ ${valor} via Cartão de Crédito`);
+        // Lógica de processamento...
+        return true;
+    }
+}
+
+class PayPal implements EstrategiaPagamento {
+    processarPagamento(valor: number): boolean {
+        console.log(`Processando pagamento de R$ ${valor} via PayPal`);
+        // Lógica de processamento...
+        return true;
+    }
+}
+
+class Bitcoin implements EstrategiaPagamento {
+    processarPagamento(valor: number): boolean {
+        console.log(`Processando pagamento de R$ ${valor} via Bitcoin`);
+        // Lógica de processamento...
+        return true;
+    }
+}
+
+// Cliente que usa a estratégia
+class ProcessadorPagamentos {
+    private estrategia: EstrategiaPagamento;
+
+    constructor(estrategia: EstrategiaPagamento) {
+        this.estrategia = estrategia;
+    }
+
+    setEstrategia(estrategia: EstrategiaPagamento): void {
+        this.estrategia = estrategia;
+    }
+
+    processar(valor: number): boolean {
+        return this.estrategia.processarPagamento(valor);
+    }
+}
+
+// Uso
+const processador = new ProcessadorPagamentos(new CartaoCredito());
+processador.processar(100); // Cartão de Crédito
+
+processador.setEstrategia(new PayPal());
+processador.processar(200); // PayPal
+
+// Testes
+describe('ProcessadorPagamentos', () => {
+    test('deve processar pagamento com cartão', () => {
+        const cartao = new CartaoCredito();
+        const processador = new ProcessadorPagamentos(cartao);
+        
+        expect(processador.processar(100)).toBe(true);
+    });
+
+    test('deve mudar estratégia em tempo de execução', () => {
+        const processador = new ProcessadorPagamentos(new CartaoCredito());
+        processador.setEstrategia(new PayPal());
+        
+        expect(processador.processar(200)).toBe(true);
+    });
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Associações em TypeScript -->
+        <section id="associacoes" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Tipos de Associações em POO</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="concept-box">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">🔗 O que são Associações?</h3>
+                    <p class="mb-3">Associações definem <strong>relacionamentos</strong> entre classes. Elas especificam como os objetos se conectam e colaboram entre si.</p>
+                    <p>Os principais tipos são: <strong>Associação Simples, Agregação, Composição e Associação Direcional</strong>.</p>
+                </div>
+
+                <!-- Associação Um para Muitos -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">1. Associação Um para Muitos (1:N)</h4>
+                    <p class="mb-4">Um objeto contém uma coleção de outros objetos. Os objetos filhos podem existir independentemente.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class Departamento {
+                                -nome: string
+                                -professores: Professor[]
+                                +adicionarProfessor(professor: Professor) void
+                                +listarProfessores() void
+                            }
+                            class Professor {
+                                -nome: string
+                                -especialidade: string
+                            }
+                            Departamento "1" --> "many" Professor : contém
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>class Professor {
+    constructor(
+        public nome: string,
+        public especialidade: string
+    ) {}
+}
+
+class Departamento {
+    private professores: Professor[] = [];
+
+    constructor(public nome: string) {}
+
+    adicionarProfessor(professor: Professor): void {
+        this.professores.push(professor);
+    }
+
+    listarProfessores(): void {
+        console.log(`Professores do departamento ${this.nome}:`);
+        this.professores.forEach(prof => {
+            console.log(`- ${prof.nome} (${prof.especialidade})`);
+        });
+    }
+
+    buscarPorEspecialidade(especialidade: string): Professor[] {
+        return this.professores.filter(prof => 
+            prof.especialidade === especialidade
+        );
+    }
+}
+
+// Uso
+const deptComputacao = new Departamento("Ciência da Computação");
+
+const prof1 = new Professor("Dr. Silva", "Inteligência Artificial");
+const prof2 = new Professor("Dra. Santos", "Banco de Dados");
+const prof3 = new Professor("Dr. Oliveira", "Inteligência Artificial");
+
+deptComputacao.adicionarProfessor(prof1);
+deptComputacao.adicionarProfessor(prof2);
+deptComputacao.adicionarProfessor(prof3);
+
+// Testes
+describe('Departamento', () => {
+    test('deve adicionar professores ao departamento', () => {
+        const departamento = new Departamento("Matemática");
+        const professor = new Professor("Dr. Carlos", "Cálculo");
+        
+        departamento.adicionarProfessor(professor);
+        // Verificamos indiretamente através dos métodos
+        expect(departamento).toBeInstanceOf(Departamento);
+    });
+
+    test('deve buscar professores por especialidade', () => {
+        const departamento = new Departamento("Computação");
+        const profIA = new Professor("Dr. IA", "Inteligência Artificial");
+        const profBD = new Professor("Dr. BD", "Banco de Dados");
+        
+        departamento.adicionarProfessor(profIA);
+        departamento.adicionarProfessor(profBD);
+        
+        const professoresIA = departamento.buscarPorEspecialidade("Inteligência Artificial");
+        expect(professoresIA).toHaveLength(1);
+        expect(professoresIA[0].nome).toBe("Dr. IA");
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Composição -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">2. Composição (Relação "Tem-um" Forte)</h4>
+                    <p class="mb-4">O objeto filho não pode existir sem o objeto pai. Ciclo de vida vinculado.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class Casa {
+                                -endereco: string
+                                -quartos: Quarto[]
+                                +adicionarQuarto(numero: number, area: number) void
+                                +calcularAreaTotal() number
+                            }
+                            class Quarto {
+                                -numero: number
+                                -area: number
+                            }
+                            Casa *-- Quarto : possui
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>class Quarto {
+    constructor(
+        public numero: number,
+        public area: number
+    ) {}
+}
+
+class Casa {
+    private quartos: Quarto[] = [];
+
+    constructor(public endereco: string) {}
+
+    adicionarQuarto(numero: number, area: number): void {
+        const quarto = new Quarto(numero, area);
+        this.quartos.push(quarto);
+    }
+
+    calcularAreaTotal(): number {
+        return this.quartos.reduce((total, quarto) => total + quarto.area, 0);
+    }
+
+    listarQuartos(): void {
+        console.log(`Quartos da casa ${this.endereco}:`);
+        this.quartos.forEach(quarto => {
+            console.log(`- Quarto ${quarto.numero}: ${quarto.area}m²`);
+        });
+    }
+
+    // Na composição, quando a casa é destruída, os quartos também são
+    destruir(): void {
+        this.quartos = [];
+        console.log("Casa destruída - todos os quartos foram removidos");
+    }
+}
+
+// Uso
+const minhaCasa = new Casa("Rua A, 123");
+minhaCasa.adicionarQuarto(1, 15);
+minhaCasa.adicionarQuarto(2, 12);
+minhaCasa.adicionarQuarto(3, 20);
+
+console.log(`Área total: ${minhaCasa.calcularAreaTotal()}m²`);
+
+// Testes
+describe('Casa e Quartos (Composição)', () => {
+    test('deve calcular área total corretamente', () => {
+        const casa = new Casa("Rua Teste, 123");
+        casa.adicionarQuarto(1, 15);
+        casa.adicionarQuarto(2, 20);
+        
+        expect(casa.calcularAreaTotal()).toBe(35);
+    });
+
+    test('deve destruir casa e remover todos os quartos', () => {
+        const casa = new Casa("Rua Teste, 456");
+        casa.adicionarQuarto(1, 10);
+        
+        casa.destruir();
+        // Após destruir, a área total deve ser 0
+        expect(casa.calcularAreaTotal()).toBe(0);
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Agregação -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">3. Agregação (Relação "Tem-um" Fraca)</h4>
+                    <p class="mb-4">O objeto filho pode existir independentemente do objeto pai.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class Universidade {
+                                -nome: string
+                                -departamentos: Departamento[]
+                                +adicionarDepartamento(departamento: Departamento) void
+                                +listarDepartamentos() void
+                            }
+                            class Departamento {
+                                -nome: string
+                            }
+                            Universidade o-- Departamento : agrega
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>class Departamento {
+    constructor(public nome: string) {}
+}
+
+class Universidade {
+    private departamentos: Departamento[] = [];
+
+    constructor(public nome: string) {}
+
+    adicionarDepartamento(departamento: Departamento): void {
+        this.departamentos.push(departamento);
+    }
+
+    removerDepartamento(departamento: Departamento): void {
+        const index = this.departamentos.indexOf(departamento);
+        if (index >= 0) {
+            this.departamentos.splice(index, 1);
+        }
+    }
+
+    listarDepartamentos(): void {
+        console.log(`Departamentos da Universidade ${this.nome}:`);
+        this.departamentos.forEach(dept => {
+            console.log(`- ${dept.nome}`);
+        });
+    }
+
+    getTotalDepartamentos(): number {
+        return this.departamentos.length;
+    }
+}
+
+// Uso
+const universidade = new Universidade("Universidade Federal");
+
+const deptComputacao = new Departamento("Ciência da Computação");
+const deptMatematica = new Departamento("Matemática");
+const deptFisica = new Departamento("Física");
+
+universidade.adicionarDepartamento(deptComputacao);
+universidade.adicionarDepartamento(deptMatematica);
+universidade.adicionarDepartamento(deptFisica);
+
+// O departamento pode existir sem a universidade
+const deptIndependente = new Departamento("Departamento Independente");
+
+// Testes
+describe('Universidade e Departamentos (Agregação)', () => {
+    test('deve adicionar e remover departamentos', () => {
+        const universidade = new Universidade("UFABC");
+        const departamento = new Departamento("Computação");
+        
+        universidade.adicionarDepartamento(departamento);
+        expect(universidade.getTotalDepartamentos()).toBe(1);
+        
+        universidade.removerDepartamento(departamento);
+        expect(universidade.getTotalDepartamentos()).toBe(0);
+        
+        // Departamento ainda existe independentemente
+        expect(departamento.nome).toBe("Computação");
+    });
+
+    test('departamento deve existir sem universidade', () => {
+        const departamento = new Departamento("Matemática Pura");
+        // Departamento criado sem universidade
+        expect(departamento).toBeInstanceOf(Departamento);
+        expect(departamento.nome).toBe("Matemática Pura");
+    });
+});</code></pre>
+                    </div>
+                </div>
+
+                <!-- Associação Direcional -->
+                <div class="association-card">
+                    <h4 class="text-xl font-semibold mb-3 text-dark">4. Associação Direcional</h4>
+                    <p class="mb-4">Uma classe conhece outra, mas não vice-versa. Relacionamento unidirecional.</p>
+                    
+                    <div class="mermaid">
+                        classDiagram
+                            class Pedido {
+                                -id: number
+                                -itens: ItemPedido[]
+                                -cliente: Cliente
+                                +calcularTotal() number
+                                +adicionarItem(produto: string, quantidade: number, preco: number) void
+                            }
+                            class Cliente {
+                                -nome: string
+                                -email: string
+                            }
+                            Pedido --> Cliente : conhece
+                    </div>
+                    
+                    <div class="code-block mt-4">
+                        <pre><code>class Cliente {
+    constructor(
+        public nome: string,
+        public email: string
+    ) {}
+}
+
+class ItemPedido {
+    constructor(
+        public produto: string,
+        public quantidade: number,
+        public preco: number
+    ) {}
+
+    calcularSubtotal(): number {
+        return this.quantidade * this.preco;
+    }
+}
+
+class Pedido {
+    private itens: ItemPedido[] = [];
+    private static proximoId = 1;
+
+    constructor(
+        public id: number,
+        public cliente: Cliente,
+        public data: Date = new Date()
+    ) {
+        this.id = Pedido.proximoId++;
+    }
+
+    adicionarItem(produto: string, quantidade: number, preco: number): void {
+        const item = new ItemPedido(produto, quantidade, preco);
+        this.itens.push(item);
+    }
+
+    calcularTotal(): number {
+        return this.itens.reduce((total, item) => total + item.calcularSubtotal(), 0);
+    }
+
+    listarItens(): void {
+        console.log(`Pedido #${this.id} - Cliente: ${this.cliente.nome}`);
+        this.itens.forEach(item => {
+            console.log(`- ${item.produto}: ${item.quantidade} x R$ ${item.preco} = R$ ${item.calcularSubtotal()}`);
+        });
+        console.log(`Total: R$ ${this.calcularTotal()}`);
+    }
+
+    // Pedido conhece Cliente, mas Cliente não conhece Pedido
+    getInfoCliente(): string {
+        return `Cliente: ${this.cliente.nome} (${this.cliente.email})`;
+    }
+}
+
+// Uso
+const cliente = new Cliente("Maria Silva", "maria@email.com");
+const pedido = new Pedido(1, cliente);
+
+pedido.adicionarItem("Notebook", 1, 2500);
+pedido.adicionarItem("Mouse", 2, 50);
+pedido.adicionarItem("Teclado", 1, 120);
+
+pedido.listarItens();
+
+// Testes
+describe('Pedido e Cliente (Associação Direcional)', () => {
+    test('pedido deve conhecer cliente mas não vice-versa', () => {
+        const cliente = new Cliente("João", "joao@email.com");
+        const pedido = new Pedido(1, cliente);
+        
+        expect(pedido.getInfoCliente()).toContain("João");
+        expect(pedido.getInfoCliente()).toContain("joao@email.com");
+        
+        // Cliente não tem referência para pedido
+        expect(cliente.nome).toBe("João");
+        // cliente.pedidos não existe - associação unidirecional
+    });
+
+    test('deve calcular total do pedido corretamente', () => {
+        const cliente = new Cliente("Teste", "teste@email.com");
+        const pedido = new Pedido(1, cliente);
+        
+        pedido.adicionarItem("Produto A", 2, 100);
+        pedido.adicionarItem("Produto B", 1, 50);
+        
+        expect(pedido.calcularTotal()).toBe(250);
+    });
+});</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections em TypeScript -->
+        <section id="collections" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Collections em TypeScript</h2>
+            
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="concept-box">
+                    <h3 class="text-2xl font-semibold mb-4 text-primary">🗂️ O que são Collections?</h3>
+                    <p class="mb-3">Collections são estruturas de dados para armazenar e manipular grupos de objetos. Em TypeScript, as principais collections são <strong>Arrays, Sets e Maps</strong>.</p>
+                    <p>Elas são essenciais para implementar associações um-para-muitos e muitos-para-muitos.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Arrays -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-xl font-semibold mb-4 text-dark">1. Arrays</h4>
+                        <p class="mb-4">Coleção ordenada de elementos, permitindo duplicatas.</p>
+                        <div class="code-block">
+                            <pre><code>// Declaração
+const numeros: number[] = [1, 2, 3];
+const frutas: Array<string> = ['maçã', 'banana'];
+
+// Métodos úteis
+numeros.push(4); // Adiciona ao final
+numeros.pop(); // Remove do final
+numeros.find(n => n > 1); // Encontra elemento
+numeros.filter(n => n % 2 === 0); // Filtra elementos
+numeros.map(n => n * 2); // Transforma elementos</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Sets -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-xl font-semibold mb-4 text-dark">2. Sets</h4>
+                        <p class="mb-4">Coleção de elementos únicos, não ordenados.</p>
+                        <div class="code-block">
+                            <pre><code>// Declaração
+const uniqueNumbers = new Set<number>([1, 2, 3, 3, 2]);
+// Resultado: Set(3) {1, 2, 3}
+
+// Métodos úteis
+uniqueNumbers.add(4); // Adiciona elemento
+uniqueNumbers.delete(1); // Remove elemento
+uniqueNumbers.has(2); // Verifica existência
+uniqueNumbers.size; // Tamanho do set
+
+// Converter Set para Array
+const arrayFromSet = Array.from(uniqueNumbers);</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Maps -->
+                    <div class="bg-white p-6 rounded-lg border border-gray-200">
+                        <h4 class="text-xl font-semibold mb-4 text-dark">3. Maps</h4>
+                        <p class="mb-4">Coleção de pares chave-valor, mantendo a ordem de inserção.</p>
+                        <div class="code-block">
+                            <pre><code>// Declaração
+const map = new Map<string, number>([
+    ['chave1', 1],
+    ['chave2', 2]
+]);
+
+// Métodos úteis
+map.set('chave3', 3); // Adiciona par chave-valor
+map.get('chave1'); // Obtém valor pela chave
+map.has('chave2'); // Verifica existência da chave
+map.delete('chave1'); // Remove par chave-valor
+map.size; // Tamanho do map
+
+// Iteração
+for (const [chave, valor] of map) {
+    console.log(chave, valor);
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-2xl font-semibold mb-4">💡 Aplicando Collections em Associações</h3>
+                    
+                    <div class="association-card">
+                        <h4 class="text-xl font-semibold mb-3 text-dark">Exemplo: Universidade com Departamentos (Array)</h4>
+                        <p class="mb-4">Usando Array para representar uma associação um-para-muitos.</p>
+                        
+                        <div class="code-block">
+                            <pre><code>class Departamento {
+    constructor(public nome: string) {}
+}
+
+class Universidade {
+    // Array para armazenar departamentos
+    private departamentos: Departamento[] = [];
+
+    adicionarDepartamento(departamento: Departamento): void {
+        this.departamentos.push(departamento);
+    }
+
+    getDepartamentos(): Departamento[] {
+        return [...this.departamentos]; // Retorna cópia para evitar modificações externas
+    }
+
+    buscarDepartamento(nome: string): Departamento | undefined {
+        return this.departamentos.find(dept => dept.nome === nome);
+    }
+
+    removerDepartamento(departamento: Departamento): void {
+        const index = this.departamentos.indexOf(departamento);
+        if (index >= 0) {
+            this.departamentos.splice(index, 1);
+        }
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="association-card">
+                        <h4 class="text-xl font-semibold mb-3 text-dark">Exemplo: Rede Social com Amigos (Set)</h4>
+                        <p class="mb-4">Usando Set para garantir que usuários sejam únicos na lista de amigos.</p>
+                        
+                        <div class="code-block">
+                            <pre><code>class UsuarioRedeSocial {
+    private amigos: Set<UsuarioRedeSocial> = new Set();
+
+    constructor(public nome: string) {}
+
+    adicionarAmigo(amigo: UsuarioRedeSocial): void {
+        // Set não permite duplicatas
+        this.amigos.add(amigo);
+        // Amizade bidirecional
+        amigo.amigos.add(this);
+    }
+
+    removerAmigo(amigo: UsuarioRedeSocial): void {
+        this.amigos.delete(amigo);
+        amigo.amigos.delete(this);
+    }
+
+    getAmigos(): UsuarioRedeSocial[] {
+        return Array.from(this.amigos);
+    }
+
+    ehAmigo(usuario: UsuarioRedeSocial): boolean {
+        return this.amigos.has(usuario);
+    }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="association-card">
+                        <h4 class="text-xl font-semibold mb-3 text-dark">Exemplo: Catálogo de Produtos (Map)</h4>
+                        <p class="mb-4">Usando Map para buscar produtos rapidamente por ID.</p>
+                        
+                        <div class="code-block">
+                            <pre><code>class Produto {
+    constructor(
+        public id: number,
+        public nome: string,
+        public preco: number
+    ) {}
+}
+
+class Catalogo {
+    private produtos: Map<number, Produto> = new Map();
+
+    adicionarProduto(produto: Produto): void {
+        this.produtos.set(produto.id, produto);
+    }
+
+    buscarPorId(id: number): Produto | undefined {
+        return this.produtos.get(id);
+    }
+
+    removerProduto(id: number): boolean {
+        return this.produtos.delete(id);
+    }
+
+    listarProdutos(): Produto[] {
+        return Array.from(this.produtos.values());
+    }
+
+    // Outros métodos de busca...
+    buscarPorNome(nome: string): Produto | undefined {
+        return this.listarProdutos().find(produto => 
+            produto.nome.toLowerCase().includes(nome.toLowerCase())
+        );
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercícios -->
+        <section id="exercicios" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-6 text-primary border-b-2 border-primary pb-2">Exercícios de POO e TDD</h2>
+
+            <!-- Exercício 1 -->
+            <div class="exercise-card">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mr-3">EXERCÍCIO 1</div>
+                    <h3 class="text-2xl font-semibold">Sistema de Biblioteca</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">Implemente um sistema de gerenciamento de biblioteca com diferentes tipos de itens e empréstimos.</p>
+                
+                <div class="mermaid">
+                    classDiagram
+                        class ItemBiblioteca {
+                            -titulo: string
+                            -autor: string
+                            -anoPublicacao: number
+                            -disponivel: boolean
+                            +emprestar() boolean
+                            +devolver() void
+                            +estaDisponivel() boolean
+                        }
+                        class Livro {
+                            -isbn: string
+                            -numeroPaginas: number
+                        }
+                        class Revista {
+                            -numeroEdicao: number
+                            -mesPublicacao: string
+                        }
+                        class DVD {
+                            -duracao: number
+                            -classificacao: string
+                        }
+                        ItemBiblioteca <|-- Livro
+                        ItemBiblioteca <|-- Revista
+                        ItemBiblioteca <|-- DVD
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">📝 Requisitos</h4>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Sistema de empréstimo e devolução</li>
+                            <li>• Diferentes tipos de itens (Livro, Revista, DVD)</li>
+                            <li>• Controle de disponibilidade</li>
+                            <li>• Busca por título e autor</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">🧪 Abordagem TDD</h4>
+                        <div class="test-block">
+                            <pre><code>describe('Sistema de Biblioteca', () => {
+    test('deve emprestar item disponível');
+    test('não deve emprestar item indisponível');
+    test('deve devolver item emprestado');
+    test('deve buscar itens por título');
+    test('deve buscar itens por autor');
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercício 2 -->
+            <div class="exercise-card">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mr-3">EXERCÍCIO 2</div>
+                    <h3 class="text-2xl font-semibold">Sistema de Funcionários</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">Implemente um sistema de folha de pagamento com diferentes tipos de funcionários e cálculos de salário.</p>
+                
+                <div class="mermaid">
+                    classDiagram
+                        class Funcionario {
+                            -nome: string
+                            -salarioBase: number
+                            +calcularSalario()* number
+                            +getNome() string
+                        }
+                        class Gerente {
+                            -bonus: number
+                            +calcularSalario() number
+                        }
+                        class Desenvolvedor {
+                            -horasExtras: number
+                            -valorHoraExtra: number
+                            +calcularSalario() number
+                        }
+                        class Estagiario {
+                            -bolsa: number
+                            +calcularSalario() number
+                        }
+                        Funcionario <|-- Gerente
+                        Funcionario <|-- Desenvolvedor
+                        Funcionario <|-- Estagiario
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">📝 Requisitos</h4>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Diferentes tipos de funcionários</li>
+                            <li>• Cálculos de salário específicos</li>
+                            <li>• Bônus para gerentes</li>
+                            <li>• Horas extras para desenvolvedores</li>
+                            <li>• Bolsa para estagiários</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">🧪 Abordagem TDD</h4>
+                        <div class="test-block">
+                            <pre><code>describe('Sistema de Funcionários', () => {
+    test('deve calcular salário de gerente com bônus');
+    test('deve calcular salário de desenvolvedor com horas extras');
+    test('deve calcular bolsa de estagiário');
+    test('deve listar todos os funcionários');
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercício 3 -->
+            <div class="exercise-card">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mr-3">EXERCÍCIO 3</div>
+                    <h3 class="text-2xl font-semibold">Sistema de Veículos</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">Implemente um sistema de veículos com diferentes tipos e comportamentos específicos.</p>
+                
+                <div class="mermaid">
+                    classDiagram
+                        class Veiculo {
+                            -marca: string
+                            -modelo: string
+                            -ano: number
+                            +acelerar()* void
+                            +frear()* void
+                            +informacoes() string
+                        }
+                        class Carro {
+                            -portas: number
+                            +acelerar() void
+                            +frear() void
+                            +abrirPortaMalas() void
+                        }
+                        class Moto {
+                            -cilindradas: number
+                            +acelerar() void
+                            +frear() void
+                            +empinar() void
+                        }
+                        class Caminhao {
+                            -cargaMaxima: number
+                            +acelerar() void
+                            +frear() void
+                            +carregar() void
+                        }
+                        Veiculo <|-- Carro
+                        Veiculo <|-- Moto
+                        Veiculo <|-- Caminhao
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">📝 Requisitos</h4>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Comportamentos específicos para cada veículo</li>
+                            <li>• Aceleração e frenagem diferenciadas</li>
+                            <li>• Métodos específicos para cada tipo</li>
+                            <li>• Sistema de informações do veículo</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">🧪 Abordagem TDD</h4>
+                        <div class="test-block">
+                            <pre><code>describe('Sistema de Veículos', () => {
+    test('carro deve acelerar e frear corretamente');
+    test('moto deve empinar');
+    test('caminhão deve carregar carga');
+    test('deve retornar informações do veículo');
+    test('deve usar polimorfismo em lista de veículos');
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercício 4 - NOVO -->
+            <div class="exercise-card">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mr-3">EXERCÍCIO 4</div>
+                    <h3 class="text-2xl font-semibold">Sistema de Rede Social</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">Implemente um sistema de rede social com usuários, posts, comentários e amizades.</p>
+                
+                <div class="mermaid">
+                    classDiagram
+                        class Usuario {
+                            -nome: string
+                            -email: string
+                            -amigos: Set~Usuario~
+                            -posts: Post[]
+                            +adicionarAmigo(usuario: Usuario) void
+                            +removerAmigo(usuario: Usuario) void
+                            +criarPost(conteudo: string) Post
+                            +comentar(post: Post, conteudo: string) Comentario
+                        }
+                        class Post {
+                            -autor: Usuario
+                            -conteudo: string
+                            -data: Date
+                            -comentarios: Comentario[]
+                            +adicionarComentario(comentario: Comentario) void
+                        }
+                        class Comentario {
+                            -autor: Usuario
+                            -conteudo: string
+                            -data: Date
+                        }
+                        Usuario "1" --> "many" Post : publica
+                        Usuario "1" --> "many" Comentario : escreve
+                        Post "1" --> "many" Comentario : contém
+                        Usuario "many" -- "many" Usuario : amigos
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">📝 Requisitos</h4>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Usuários podem adicionar/remover amigos (amizade bidirecional)</li>
+                            <li>• Usuários podem criar posts</li>
+                            <li>• Usuários podem comentar em posts</li>
+                            <li>• Posts têm uma lista de comentários</li>
+                            <li>• Use Set para amigos (evitar duplicatas)</li>
+                            <li>• Use Array para posts e comentários</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">🧪 Abordagem TDD</h4>
+                        <div class="test-block">
+                            <pre><code>describe('Sistema de Rede Social', () => {
+    test('deve adicionar amizade bidirecional');
+    test('não deve adicionar amigo duplicado');
+    test('deve remover amizade bidirecional');
+    test('deve criar post e associar ao autor');
+    test('deve adicionar comentário a um post');
+    test('deve listar posts de um usuário');
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercício 5 - NOVO -->
+            <div class="exercise-card">
+                <div class="flex items-center mb-4">
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium mr-3">EXERCÍCIO 5</div>
+                    <h3 class="text-2xl font-semibold">Sistema de Carrinho de Compras</h3>
+                </div>
+                
+                <p class="text-gray-700 mb-6">Implemente um sistema de carrinho de compras com produtos, itens do carrinho e pedidos.</p>
+                
+                <div class="mermaid">
+                    classDiagram
+                        class Produto {
+                            -id: number
+                            -nome: string
+                            -preco: number
+                        }
+                        class ItemCarrinho {
+                            -produto: Produto
+                            -quantidade: number
+                            +calcularSubtotal() number
+                        }
+                        class Carrinho {
+                            -itens: Map~number, ItemCarrinho~
+                            +adicionarItem(produto: Produto, quantidade: number) void
+                            +removerItem(produtoId: number) void
+                            +calcularTotal() number
+                            +listarItens() ItemCarrinho[]
+                        }
+                        class Pedido {
+                            -itens: ItemCarrinho[]
+                            -total: number
+                            -data: Date
+                            +finalizar() void
+                        }
+                        Carrinho "1" --> "many" ItemCarrinho : contém
+                        ItemCarrinho "1" --> "1" Produto : referencia
+                        Pedido --> Carrinho : gera
+                </div>
+                
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">📝 Requisitos</h4>
+                        <ul class="text-gray-600 space-y-2">
+                            <li>• Produtos com ID, nome e preço</li>
+                            <li>• Itens do carrinho com produto e quantidade</li>
+                            <li>• Carrinho deve usar Map para itens (chave: produtoId)</li>
+                            <li>• Calcular subtotal por item e total do carrinho</li>
+                            <li>• Finalizar carrinho gerando um pedido</li>
+                            <li>• Pedido deve conter uma cópia dos itens e o total</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-lg mb-3 text-gray-800">🧪 Abordagem TDD</h4>
+                        <div class="test-block">
+                            <pre><code>describe('Sistema de Carrinho de Compras', () => {
+    test('deve adicionar item ao carrinho');
+    test('deve remover item do carrinho');
+    test('deve calcular subtotal do item');
+    test('deve calcular total do carrinho');
+    test('deve finalizar carrinho e gerar pedido');
+    test('deve lançar erro ao adicionar produto inexistente');
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Desafio -->
+        <section id="desafio" class="mb-16 scroll-mt-20">
+            <div class="challenge-card">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-bold text-white mb-4">🚀 Desafio em Grupo: Modelagem de Aves</h2>
+                    <p class="text-xl text-white opacity-90 max-w-3xl mx-auto">Um desafio de POO e TDD para trabalhar em grupo e apresentar para a turma</p>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <h3 class="text-2xl font-semibold mb-4 text-white">🎯 Contexto do Problema</h3>
+                    <p class="text-white mb-4">Você foi contratado para modelar um sistema de diferentes tipos de aves com comportamentos específicos. Cada tipo de ave possui capacidades diferentes relacionadas a voar, nadar, grasnar e outras ações.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">🦆 Pato Selvagem</h4>
+                            <ul class="text-white text-sm space-y-1">
+                                <li>• Pode voar</li>
+                                <li>• Pode nadar</li>
+                                <li>• Faz "Quack!"</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">🦅 Águia (Ave de Rapina)</h4>
+                            <ul class="text-white text-sm space-y-1">
+                                <li>• Excelente em voar</li>
+                                <li>• Não nada</li>
+                                <li>• Faz "Screech!"</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">🦆 Pato de Borracha</h4>
+                            <ul class="text-white text-sm space-y-1">
+                                <li>• Não voa</li>
+                                <li>• Flutua na água</li>
+                                <li>• Faz "Squeak!"</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white bg-opacity-20 p-4 rounded-lg">
+                            <h4 class="font-semibold text-white mb-2">🐧 Pinguim</h4>
+                            <ul class="text-white text-sm space-y-1">
+                                <li>• Não voa</li>
+                                <li>• Excelente nadador</li>
+                                <li>• Faz "Honk!"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entrega -->
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold mb-6 text-primary">📦 Entrega e Apresentação</h3>
+                
+                <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                    <h4 class="font-semibold text-blue-800 mb-4">O que cada grupo deve apresentar:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">Diagrama PlantUML</h5>
+                            <ul class="text-gray-600 text-sm space-y-1">
+                                <li>• Diagrama de classes completo</li>
+                                <li>• Hierarquia de herança</li>
+                                <li>• Interfaces e implementações</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h5 class="font-semibold text-gray-800 mb-2">Implementação TypeScript</h5>
+                            <ul class="text-gray-600 text-sm space-y-1">
+                                <li>• Código das classes em TypeScript</li>
+                                <li>• Implementação dos comportamentos</li>
+                                <li>• Aplicação dos princípios de POO</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h5 class="font-semibold text-green-800 mb-2">🧪 TDD Implementado</h5>
+                        <p class="text-green-700 text-sm">Todos os grupos devem demonstrar a implementação seguindo a metodologia TDD, com testes unitários para cada funcionalidade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-xl font-bold mb-2">Guia Completo TypeScript</h3>
+            <p class="text-gray-400">POO, TDD, Interfaces, Associações e Collections com exemplos práticos</p>
+            <p class="text-gray-400 mt-2">© 2024 - Material Educacional</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll para navegação
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
