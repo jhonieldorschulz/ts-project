@@ -180,13 +180,5 @@ npm run format
    * qualquer dependência nova.
 5. Para correções rápidas (typo, README), abra PR com `fix/readme`.
 
----
-
-## Observações sobre este README
-
-* Eu gerei este README com base na estrutura do repo (pastas `src`, `tests`, `dist`, `package.json`, `tsconfig.json`) que foi listada, mas não consegui ler o conteúdo dos arquivos (`package.json`, `tsconfig.json`, etc`) por um erro ao abrir os arquivos no GitHub.
-* Se você quiser, eu adapto este README para incluir **os scripts exatos** e as **dependências listadas** no `package.json` (ex.: comandos reais em `scripts`, versões, devDependencies como jest/ts-jest/ts-node/eslint). Cole aqui o conteúdo do `package.json` ou me autorize a tentar carregar os arquivos novamente — eu ajusto sem cerimônia.
-
----
 
 
