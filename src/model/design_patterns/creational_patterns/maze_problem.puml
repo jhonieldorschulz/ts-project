@@ -1,0 +1,44 @@
+@startuml
+' visual cleanup
+skinparam classAttributeIconSize 0
+
+' classes / abstractions
+abstract class MapSite {
+  + enter()
+}
+
+class Maze {
+  + addRoom()
+  + romNo()
+}
+
+class Room {
+  + enter()
+  + setSide()
+  + getSide()
+  - roomNumber
+}
+
+class Wall {
+  + enter()
+}
+
+class Door {
+  + enter()
+  + isOpen()
+}
+
+' herança (specialization)
+Room --|> MapSite
+Wall --|> MapSite
+Door --|> MapSite
+
+' associações / composições
+Maze *-- "1..*" Room : rooms
+Room o-- "4" MapSite : sides
+
+' layout hints (opcional, ajuda na posição similar à imagem)
+Maze -[hidden]- Room
+MapSite -[hidden]- Room
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class Calculadora{
+    +somar(a: number, b: number)
+    +multiplicar(a: number, b: number)
+    +dividir(a: number, b: number)
+    +subtrair(a: number, b: number)
+}
+@enduml

@@ -1,5 +1,5 @@
 export class ContaBancaria{
-    private saldo : number 
+    private saldo : number  
     private numero: string 
 
     constructor(saldo: number, numero: string){

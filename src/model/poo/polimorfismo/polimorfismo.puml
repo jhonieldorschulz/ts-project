@@ -1,0 +1,19 @@
+@startuml
+
+abstract class FormaGeometrica{
+    +calcularArea(): number 
+}
+
+
+class Retangulo extends FormaGeometrica{
+    -altura: number 
+    -largura: number 
+    +calcularArea(): number 
+}
+
+class Circulo extends FormaGeometrica{
+    -raio : number 
+    +calcularArea(): number 
+}
+
+@enduml

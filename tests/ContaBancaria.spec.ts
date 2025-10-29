@@ -12,11 +12,28 @@ describe("ContaBancaria", () => {
            expect(conta.getSaldo()).toBe(120) 
            
         })
-        
-        test('Testando sacar valor maior que o saldo', () => {
-            const conta = new ContaBancaria(0, '123')
+
+
+        test('Testando o saque sem saldo', () => {
+            const conta = new ContaBancaria(0, 'A123')
+            // conta.sacar(100)
             expect(conta.sacar(100)).toBe(false)
         })
+
+
+        test('Testando o saque sem saldo', () => {
+            const conta = new ContaBancaria(100, 'A123')
+            // conta.sacar(100)
+            expect(conta.sacar(100)).toBe(true)
+        })
+        
+        // test('Testando sacar valor maior que o saldo', () => {
+        //     const conta = new ContaBancaria(0, '123')
+        //     expect(conta.sacar(100)).toBe(false)
+        // })
+
+
+
     })
 
 })

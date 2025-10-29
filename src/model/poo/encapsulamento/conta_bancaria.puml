@@ -1,0 +1,11 @@
+@startuml
+
+class ContaBancaria{
+    -numero: string 
+    -saldo: number 
+    +getSaldo(): number 
+    +sacar(valor: number): boolean 
+    +depositar(valor: number): void 
+}
+
+@enduml

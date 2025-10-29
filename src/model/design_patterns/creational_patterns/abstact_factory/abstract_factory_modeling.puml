@@ -1,0 +1,46 @@
+@startuml
+title Abstract Factory Pattern
+
+' Classes Abstratas (Interface - Notação Itálica)
+abstract class AbstractFactory {
+  + CreateProductA() : AbstractProductA
+  + CreateProductB() : AbstractProductB
+}
+abstract class AbstractProductA {
+  + UsefulFunctionA()
+}
+abstract class AbstractProductB {
+  + UsefulFunctionB()
+}
+
+' Classes Concretas
+class ConcreteFactory1
+class ConcreteFactory2
+class ProductA1
+class ProductA2
+class ProductB1
+class ProductB2
+class Client
+
+' Relações de Herança
+AbstractFactory <|-- ConcreteFactory1
+AbstractFactory <|-- ConcreteFactory2
+
+AbstractProductA <|-- ProductA1
+AbstractProductA <|-- ProductA2
+
+AbstractProductB <|-- ProductB1
+AbstractProductB <|-- ProductB2
+
+' Relações de Associação (Conhecimento/Uso)
+Client --> AbstractFactory : usa
+Client --> AbstractProductA : usa
+Client --> AbstractProductB : usa
+
+' Relações de Criação (Flecha tracejada no OMT)
+ConcreteFactory1 ..> ProductA1 : <<cria>>
+ConcreteFactory1 ..> ProductB1 : <<cria>>
+ConcreteFactory2 ..> ProductA2 : <<cria>>
+ConcreteFactory2 ..> ProductB2 : <<cria>>
+
+@enduml
