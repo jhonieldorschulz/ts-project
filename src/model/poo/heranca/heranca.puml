@@ -1,0 +1,23 @@
+@startuml
+abstract class Veiculo{
+    -marca: String
+    -modelo: String
+    +acelerar():void
+    +frear():void
+}
+
+class Carro extends Veiculo{
+    -numeroPortas: number
+    +abrirPorta():void
+}
+
+
+class Moto extends Veiculo{
+    -cilindradas: number
+    +empinar():void
+}
+
+
+
+
+@enduml
