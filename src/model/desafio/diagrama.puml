@@ -18,6 +18,12 @@ INTERFACE Nadavel {
     + nadar(): void
 }
 
+INTERFACE Flutuavel{
+    + flutua(): void
+}
+
+
+
 INTERFACE EmissorSom {
     + emitirSom(): void
 }
@@ -40,7 +46,7 @@ class Aguia {
     + emitirSom(): void
 }
 
-class PatoDeBorracha {
+class PatoDeBorracha implements Flutuavel {
     + nadar(): void
     + emitirSom(): void
 }
@@ -61,7 +67,7 @@ Voavel <|.. PatoSelvagem
 Voavel <|.. Aguia
 
 Nadavel <|.. PatoSelvagem
-Nadavel <|.. PatoDeBorracha
+' Nadavel <|.. PatoDeBorracha
 Nadavel <|.. Pinguim
 
 EmissorSom <|.. PatoSelvagem
