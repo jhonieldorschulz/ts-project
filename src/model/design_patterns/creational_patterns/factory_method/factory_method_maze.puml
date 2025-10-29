@@ -1,0 +1,61 @@
+@startuml
+' Abstract Factory for Maze domain
+skinparam classAttributeIconSize 0
+
+interface MazeFactory {
+  + createRoom(int) : Room
+  + createWall() : Wall
+  + createDoor(Room, Room) : Door
+}
+
+abstract class MapSite {
+  + enter()
+}
+
+class Room {
+  + roomNumber : int
+  + enter()
+}
+
+class Wall {
+  + enter()
+}
+
+class Door {
+  + enter()
+  + isOpen()
+}
+
+class EnchantedRoom {
+  + roomNumber : int
+  + castSpell()
+  + enter()
+}
+
+class BombedWall {
+  + enter()
+  + hasBomb : boolean
+}
+
+class BombedRoom {
+  + roomNumber : int
+  + hasBomb : boolean
+  + enter()
+}
+
+class EnchantedMazeFactory
+class BombedMazeFactory
+class NormalMazeFactory
+
+MazeFactory <|.. EnchantedMazeFactory
+MazeFactory <|.. BombedMazeFactory
+MazeFactory <|.. NormalMazeFactory
+
+Room --|> MapSite
+Wall --|> MapSite
+Door --|> MapSite
+EnchantedRoom --|> Room
+BombedRoom --|> Room
+BombedWall --|> Wall
+
+@enduml

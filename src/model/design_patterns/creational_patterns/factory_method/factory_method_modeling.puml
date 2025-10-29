@@ -1,0 +1,64 @@
+@startuml
+' Factory Method - generic model
+skinparam classAttributeIconSize 0
+
+' Interface / Abstract Product
+interface Product {
+  + operation(): string
+}
+
+' Concrete Products
+class ConcreteProductA {
+  + operation(): string
+}
+class ConcreteProductB {
+  + operation(): string
+}
+
+ConcreteProductA ..|> Product
+ConcreteProductB ..|> Product
+
+' Creator (abstract) with factoryMethod()
+abstract class Creator {
+  + anOperation(): string
+  {abstract} + factoryMethod(): Product
+}
+
+' Concrete Creators override factoryMethod()
+class ConcreteCreatorA {
+  + factoryMethod(): Product
+}
+class ConcreteCreatorB {
+  + factoryMethod(): Product
+}
+
+ConcreteCreatorA --|> Creator
+ConcreteCreatorB --|> Creator
+
+' Client that depends on Creator abstraction (uses Creator.anOperation())
+class Client {
+  + run(c: Creator)
+}
+
+Client --> Creator : uses
+
+' Detail: Creator.anOperation() calls factoryMethod() and works with Product
+note right of Creator
+  anOperation() {
+    p = this.factoryMethod()
+    // usa p.operation()
+    return "resultado com produto"
+  }
+end note
+
+' optional: multiplicity or dependency lines to show returned product usage
+Creator ..> Product : creates (via factoryMethod)
+
+ note right of Product 
+    Define o contrato comum para todos
+    nos produtos criados pelas factories.
+    Permite que o código cliente trabalhe
+    com qualquer produto de forma polimórfica.
+ end note    
+    
+@enduml
