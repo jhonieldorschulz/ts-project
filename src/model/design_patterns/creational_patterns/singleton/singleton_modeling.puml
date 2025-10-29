@@ -1,0 +1,49 @@
+@startuml
+' !theme plain
+
+class Singleton {
+  {static} - instance: Singleton
+  - Singleton()
+  + {static} getInstance(): Singleton
+  + someBusinessLogic(): void
+}
+
+note top of Singleton
+  **Padrão Singleton**
+  Garante que uma classe tenha apenas uma
+  instância e fornece um ponto global
+  de acesso a ela.
+  Uso comum: Logger, Configurações,
+  Conexões de banco de dados.
+end note
+
+note right of Singleton::instance
+  **Instância Estática**
+  Armazena a única instância da classe.
+  É static para ser compartilhada entre
+  todas as chamadas da aplicação.
+end note
+
+note left of Singleton::Singleton
+  **Construtor Privado**
+  Impede a criação de instâncias
+  usando o operador 'new' externamente.
+  Força o uso do método getInstance().
+end note
+
+note right of Singleton::getInstance
+  **Método de Acesso Controlado**
+  Verifica se a instância já existe.
+  Se não existir, cria uma nova.
+  Garante thread-safe em implementações
+  avançadas com double-check locking.
+end note
+
+note left of Singleton::someBusinessLogic
+  **Lógica de Negócio**
+  Método de exemplo que demonstra
+  como a instância única pode ser
+  utilizada na aplicação.
+end note
+
+@enduml

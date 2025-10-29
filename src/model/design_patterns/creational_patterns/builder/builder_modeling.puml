@@ -1,0 +1,108 @@
+@startuml
+!theme plain
+
+interface Builder {
+  + buildPartA(): void
+  + buildPartB(): void
+  + buildPartC(): void
+  + getResult(): Product
+}
+
+class ConcreteBuilder {
+  - product: Product
+  + buildPartA(): void
+  + buildPartB(): void
+  + buildPartC(): void
+  + getResult(): Product
+  + reset(): void
+}
+
+class Director {
+  - builder: Builder
+  + setBuilder(builder: Builder): void
+  + buildMinimalProduct(): void
+  + buildFullProduct(): void
+}
+
+class Product {
+  - parts: List<string>
+  + addPart(part: string): void
+  + listParts(): void
+}
+
+Director --> Builder
+ConcreteBuilder ..|> Builder
+ConcreteBuilder --> Product
+
+note top of Builder
+  **Interface Builder**
+  Define a interface para criar
+  partes de um objeto Product.
+  Permite diferentes implementações
+  de builders para o mesmo produto.
+end note
+
+note right of ConcreteBuilder
+  **ConcreteBuilder**
+  Implementa a interface Builder
+  e fornece implementação específica
+  dos passos de construção.
+  Mantém e monta as partes do produto.
+end note
+
+note left of ConcreteBuilder::product
+  **Produto em Construção**
+  Atributo que armazena o produto
+  sendo construído passo a passo.
+  Cada método buildPartX() adiciona
+  uma parte ao produto.
+end note
+
+note right of ConcreteBuilder::reset
+  **Método Reset**
+  Permite reutilizar o builder
+  para criar novos produtos.
+  Inicializa o produto para uma
+  nova construção.
+end note
+
+note bottom of Director
+  **Director - O Orquestrador**
+  Define a sequência de passos
+  para construir um produto.
+  Conhece a receita de construção
+  mas não os detalhes de implementação.
+  Promove reutilização de lógica
+  de construção.
+end note
+
+note left of Director::buildMinimalProduct
+  **Construção Mínima**
+  Implementa uma receita específica
+  que constrói apenas as partes
+  essenciais do produto.
+end note
+
+note right of Director::buildFullProduct
+  **Construção Completa**
+  Implementa uma receita que
+  constrói todas as partes
+  do produto.
+end note
+
+note top of Product
+  **Produto Final**
+  Objeto complexo sendo construído.
+  Diferente de outros padrões,
+  os produtos não precisam ter
+  uma interface comum.
+end note
+
+note left of Product::parts
+  **Partes do Produto**
+  Lista que armazena os componentes
+  que são adicionados durante
+  o processo de construção.
+end note
+
+@enduml

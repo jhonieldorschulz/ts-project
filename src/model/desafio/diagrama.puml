@@ -1,0 +1,96 @@
+@startuml
+
+!define INTERFACE interface
+!define ABSTRACT abstract
+
+skinparam class {
+    BackgroundColor<<INTERFACE>> LightBlue
+    BackgroundColor<<ABSTRACT>> LightYellow
+    ArrowColor #3178c6
+    BorderColor #1e293b
+}
+
+INTERFACE Voavel {
+    + voar(): void
+}
+
+INTERFACE Nadavel {
+    + nadar(): void
+}
+
+INTERFACE EmissorSom {
+    + emitirSom(): void
+}
+
+ABSTRACT class Ave {
+    - nome: string
+    + getNome(): string
+    + setNome(nome: string): void
+    + apresentar(): void
+}
+
+class PatoSelvagem {
+    + voar(): void
+    + nadar(): void
+    + emitirSom(): void
+}
+
+class Aguia {
+    + voar(): void
+    + emitirSom(): void
+}
+
+class PatoDeBorracha {
+    + nadar(): void
+    + emitirSom(): void
+}
+
+class Pinguim {
+    + nadar(): void
+    + emitirSom(): void
+}
+
+' Heranças
+Ave <|-- PatoSelvagem
+Ave <|-- Aguia
+Ave <|-- PatoDeBorracha
+Ave <|-- Pinguim
+
+' Implementações de Interfaces
+Voavel <|.. PatoSelvagem
+Voavel <|.. Aguia
+
+Nadavel <|.. PatoSelvagem
+Nadavel <|.. PatoDeBorracha
+Nadavel <|.. Pinguim
+
+EmissorSom <|.. PatoSelvagem
+EmissorSom <|.. Aguia
+EmissorSom <|.. PatoDeBorracha
+EmissorSom <|.. Pinguim
+
+note right of PatoSelvagem
+  Pode voar
+  Pode nadar
+  Faz "Quack!"
+end note
+
+note right of Aguia
+  Excelente em voar
+  Não nada
+  Faz "Screech!"
+end note
+
+note right of PatoDeBorracha
+  Não voa
+  Flutua na água
+  Faz "Squeak!"
+end note
+
+note right of Pinguim
+  Não voa
+  Excelente nadador
+  Faz "Honk!"
+end note
+
+@enduml
