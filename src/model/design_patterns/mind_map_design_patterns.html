@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padrões de Projeto - Mapa Mental</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .controls button {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px 15px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            display: none;
+        }
+
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .info-panel p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .info-panel .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .info-panel .close-btn:hover {
+            color: #333;
+        }
+
+        .node circle {
+            cursor: pointer;
+            stroke: #fff;
+            stroke-width: 3px;
+            transition: all 0.3s;
+        }
+
+        .node circle:hover {
+            stroke-width: 5px;
+            filter: brightness(1.2);
+        }
+
+        .node text {
+            font-size: 14px;
+            font-weight: 600;
+            pointer-events: none;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .link {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.6);
+            stroke-width: 2px;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="controls">
+            <h2>📋 Padrões de Projeto</h2>
+            <button onclick="resetView()">🔄 Resetar Visualização</button>
+            <button onclick="expandAll()">➕ Expandir Todos</button>
+            <button onclick="collapseAll()">➖ Colapsar Todos</button>
+        </div>
+
+        <div class="info-panel" id="infoPanel">
+            <button class="close-btn" onclick="closeInfo()">×</button>
+            <h3 id="patternName"></h3>
+            <p id="patternDescription"></p>
+        </div>
+
+        <svg id="mindmap"></svg>
+    </div>
+
+    <script>
+        const patternData = {
+            name: "Padrões de Projeto",
+            children: [
+                {
+                    name: "Criacionais",
+                    description: "Lidam com mecanismos de criação de objetos",
+                    color: "#4CAF50",
+                    children: [
+                        { name: "Abstract Factory", description: "Fornece uma interface para criar famílias de objetos relacionados sem especificar suas classes concretas." },
+                        { name: "Builder", description: "Separa a construção de um objeto complexo de sua representação, permitindo criar diferentes representações." },
+                        { name: "Factory Method", description: "Define uma interface para criar um objeto, mas deixa as subclasses decidirem qual classe instanciar." },
+                        { name: "Prototype", description: "Cria novos objetos copiando uma instância existente (protótipo)." },
+                        { name: "Singleton", description: "Garante que uma classe tenha apenas uma instância e fornece um ponto global de acesso a ela." }
+                    ]
+                },
+                {
+                    name: "Estruturais",
+                    description: "Lidam com composição de classes e objetos",
+                    color: "#2196F3",
+                    children: [
+                        { name: "Adapter", description: "Permite que interfaces incompatíveis trabalhem juntas, convertendo a interface de uma classe em outra." },
+                        { name: "Bridge", description: "Separa uma abstração de sua implementação, permitindo que variem independentemente." },
+                        { name: "Composite", description: "Compõe objetos em estruturas de árvore para representar hierarquias parte-todo." },
+                        { name: "Decorator", description: "Adiciona responsabilidades adicionais a um objeto dinamicamente, fornecendo alternativa flexível à herança." },
+                        { name: "Facade", description: "Fornece uma interface simplificada para um subsistema complexo." },
+                        { name: "Flyweight", description: "Usa compartilhamento para suportar eficientemente grande quantidade de objetos de granularidade fina." },
+                        { name: "Proxy", description: "Fornece um substituto ou marcador de posição para outro objeto controlar o acesso a ele." }
+                    ]
+                },
+                {
+                    name: "Comportamentais",
+                    description: "Lidam com comunicação entre objetos",
+                    color: "#FF9800",
+                    children: [
+                        { name: "Chain of Responsibility", description: "Evita acoplar o remetente de uma solicitação ao seu receptor, dando a mais de um objeto a chance de tratar a solicitação." },
+                        { name: "Command", description: "Encapsula uma solicitação como um objeto, permitindo parametrizar clientes com diferentes solicitações." },
+                        { name: "Interpreter", description: "Define uma representação gramatical para uma linguagem e um interpretador para interpretar sentenças." },
+                        { name: "Iterator", description: "Fornece uma maneira de acessar sequencialmente elementos de um objeto agregado sem expor sua representação." },
+                        { name: "Mediator", description: "Define um objeto que encapsula como um conjunto de objetos interage, promovendo acoplamento fraco." },
+                        { name: "Memento", description: "Captura e externaliza o estado interno de um objeto sem violar o encapsulamento." },
+                        { name: "Observer", description: "Define uma dependência um-para-muitos entre objetos, quando um muda de estado, todos dependentes são notificados." },
+                        { name: "State", description: "Permite que um objeto altere seu comportamento quando seu estado interno muda." },
+                        { name: "Strategy", description: "Define uma família de algoritmos, encapsula cada um e os torna intercambiáveis." },
+                        { name: "Template Method", description: "Define o esqueleto de um algoritmo, delegando alguns passos às subclasses." },
+                        { name: "Visitor", description: "Representa uma operação a ser executada nos elementos de uma estrutura de objetos." }
+                    ]
+                }
+            ]
+        };
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#mindmap")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g");
+
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        const tree = d3.tree()
+            .size([height - 100, width - 400])
+            .separation((a, b) => (a.parent === b.parent ? 1 : 1.2));
+
+        const root = d3.hierarchy(patternData);
+        root.x0 = height / 2;
+        root.y0 = 0;
+
+        root.descendants().forEach((d, i) => {
+            d.id = i;
+            d._children = d.children;
+            if (d.depth > 0) d.children = null;
+        });
+
+        update(root);
+
+        function update(source) {
+            const treeData = tree(root);
+            const nodes = treeData.descendants();
+            const links = treeData.links();
+
+            nodes.forEach(d => d.y = d.depth * 250);
+
+            const node = g.selectAll(".node")
+                .data(nodes, d => d.id);
+
+            const nodeEnter = node.enter().append("g")
+                .attr("class", "node")
+                .attr("transform", d => `translate(${source.y0},${source.x0})`)
+                .on("click", click);
+
+            nodeEnter.append("circle")
+                .attr("r", d => d.depth === 0 ? 15 : d.depth === 1 ? 12 : 8)
+                .style("fill", d => {
+                    if (d.depth === 0) return "#764ba2";
+                    if (d.depth === 1) return d.data.color;
+                    return d.parent.data.color;
+                });
+
+            nodeEnter.append("text")
+                .attr("dy", d => d.depth === 0 ? "-25" : d.depth === 1 ? "-20" : "-15")
+                .attr("text-anchor", "middle")
+                .text(d => d.data.name)
+                .style("fill", "#fff")
+                .style("font-size", d => d.depth === 0 ? "16px" : d.depth === 1 ? "14px" : "12px");
+
+            const nodeUpdate = nodeEnter.merge(node);
+
+            nodeUpdate.transition()
+                .duration(600)
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+
+            nodeUpdate.select("circle")
+                .style("fill", d => {
+                    if (d.depth === 0) return "#764ba2";
+                    if (d.depth === 1) return d.data.color;
+                    return d.parent.data.color;
+                });
+
+            const nodeExit = node.exit().transition()
+                .duration(600)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .remove();
+
+            nodeExit.select("circle").attr("r", 0);
+            nodeExit.select("text").style("fill-opacity", 0);
+
+            const link = g.selectAll(".link")
+                .data(links, d => d.target.id);
+
+            const linkEnter = link.enter().insert("path", "g")
+                .attr("class", "link")
+                .attr("d", d => {
+                    const o = {x: source.x0, y: source.y0};
+                    return diagonal(o, o);
+                });
+
+            const linkUpdate = linkEnter.merge(link);
+
+            linkUpdate.transition()
+                .duration(600)
+                .attr("d", d => diagonal(d.source, d.target));
+
+            link.exit().transition()
+                .duration(600)
+                .attr("d", d => {
+                    const o = {x: source.x, y: source.y};
+                    return diagonal(o, o);
+                })
+                .remove();
+
+            nodes.forEach(d => {
+                d.x0 = d.x;
+                d.y0 = d.y;
+            });
+        }
+
+        function diagonal(s, d) {
+            return `M ${s.y} ${s.x}
+                    C ${(s.y + d.y) / 2} ${s.x},
+                      ${(s.y + d.y) / 2} ${d.x},
+                      ${d.y} ${d.x}`;
+        }
+
+        function click(event, d) {
+            if (d.depth === 2) {
+                showInfo(d.data.name, d.data.description);
+            } else {
+                if (d.children) {
+                    d._children = d.children;
+                    d.children = null;
+                } else {
+                    d.children = d._children;
+                    d._children = null;
+                }
+                update(d);
+            }
+        }
+
+        function showInfo(name, description) {
+            document.getElementById("patternName").textContent = name;
+            document.getElementById("patternDescription").textContent = description;
+            document.getElementById("infoPanel").style.display = "block";
+        }
+
+        function closeInfo() {
+            document.getElementById("infoPanel").style.display = "none";
+        }
+
+        function resetView() {
+            svg.transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity.translate(100, height / 2)
+            );
+        }
+
+        function expandAll() {
+            root.descendants().forEach(d => {
+                if (d._children) {
+                    d.children = d._children;
+                    d._children = null;
+                }
+            });
+            update(root);
+        }
+
+        function collapseAll() {
+            root.descendants().forEach(d => {
+                if (d.depth > 0 && d.children) {
+                    d._children = d.children;
+                    d.children = null;
+                }
+            });
+            update(root);
+        }
+
+        svg.transition().duration(750).call(
+            zoom.transform,
+            d3.zoomIdentity.translate(100, height / 2)
+        );
+    </script>
+</body>
+</html>
