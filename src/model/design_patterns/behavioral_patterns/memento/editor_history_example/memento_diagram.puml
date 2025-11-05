@@ -1,0 +1,10 @@
+@startuml Memento_Editor
+class Editor { +setText(); +getText(); +save(); +restore() }
+class Memento { +getState() }
+class History { +push(); +pop() }
+
+Editor --> Memento
+History o--> Memento
+@enduml
+
+

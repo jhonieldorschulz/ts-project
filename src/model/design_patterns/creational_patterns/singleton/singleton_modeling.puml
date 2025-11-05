@@ -43,7 +43,7 @@ note left of Singleton::someBusinessLogic
   **Lógica de Negócio**
   Método de exemplo que demonstra
   como a instância única pode ser
-  utilizada na aplicação.
+  utilizada na aplicação.p
 end note
 
 @enduml

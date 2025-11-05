@@ -1,0 +1,15 @@
+@startuml TemplateMethod_Export
+abstract class DataExporter {
+  +export()
+  #normalize()
+  #format()
+  #wrap()
+}
+class CSVExporter
+class JSONExporter
+
+DataExporter <|-- CSVExporter
+DataExporter <|-- JSONExporter
+@enduml
+
+

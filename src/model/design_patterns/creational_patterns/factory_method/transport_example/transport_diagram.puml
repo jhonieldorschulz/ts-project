@@ -1,0 +1,40 @@
+@startuml FactoryMethod_Transport
+package "Product" {
+  interface Transport {
+    +load(weightKg: number): void
+    +deliver(): string
+  }
+
+  class Truck
+  class Ship
+
+  Transport <|.. Truck
+  Transport <|.. Ship
+}
+
+package "Creator" {
+  abstract class Logistics {
+    +createTransport(): Transport
+  }
+
+  class RoadLogistics
+  class SeaLogistics
+
+  Logistics <|-- RoadLogistics
+  Logistics <|-- SeaLogistics
+  RoadLogistics --> Truck
+  SeaLogistics --> Ship
+}
+
+package "Client" {
+  class Application {
+    -logistics: Logistics
+    +constructor(logistics: Logistics)
+    +deliverPackage(weightKg: number): string
+  }
+  Application --> Logistics
+  Application --> Transport
+}
+@enduml
+
+

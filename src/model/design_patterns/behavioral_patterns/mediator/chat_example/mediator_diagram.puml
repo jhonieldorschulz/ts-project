@@ -1,0 +1,10 @@
+@startuml Mediator_Chat
+interface Mediator { +broadcast() }
+class ChatMediator { +register(); +broadcast() }
+class User { +name; +inbox; +send(); +receive() }
+
+User --> Mediator
+ChatMediator ..> User : callbacks
+@enduml
+
+

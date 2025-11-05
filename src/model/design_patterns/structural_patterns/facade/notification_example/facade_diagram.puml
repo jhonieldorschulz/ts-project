@@ -1,0 +1,15 @@
+@startuml Facade_Notification
+class NotificationFacade {
+  +sendWelcome(user): string[]
+}
+
+class EmailService { +send(to, subject, body): string }
+class SmsService { +send(to, text): string }
+class PushService { +send(deviceId, title, message): string }
+
+NotificationFacade --> EmailService
+NotificationFacade --> SmsService
+NotificationFacade --> PushService
+@enduml
+
+

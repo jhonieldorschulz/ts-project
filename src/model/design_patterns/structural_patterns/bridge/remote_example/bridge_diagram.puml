@@ -1,0 +1,12 @@
+@startuml Bridge_Remote
+interface Device { +isEnabled(); +enable(); +disable(); +getVolume(); +setVolume() }
+class TV
+class Remote { +togglePower(); +volumeUp(); +volumeDown() }
+class AdvancedRemote { +mute() }
+
+Device <|.. TV
+Remote o--> Device
+AdvancedRemote --|> Remote
+@enduml
+
+

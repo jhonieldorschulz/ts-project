@@ -1,0 +1,15 @@
+@startuml Decorator_Coffee
+interface Coffee { +cost(): number; +description(): string }
+class SimpleCoffee
+abstract class CoffeeDecorator
+class MilkDecorator
+class SugarDecorator
+
+Coffee <|.. SimpleCoffee
+Coffee <|.. CoffeeDecorator
+CoffeeDecorator <|-- MilkDecorator
+CoffeeDecorator <|-- SugarDecorator
+CoffeeDecorator o--> Coffee
+@enduml
+
+

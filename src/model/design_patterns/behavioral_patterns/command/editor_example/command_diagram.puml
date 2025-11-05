@@ -1,0 +1,15 @@
+@startuml Command_Editor
+interface Command {
+  +execute()
+  +undo()
+}
+class SetTextCommand { -prev }
+class Editor { +setText(); +getText() }
+class CommandHistory { +push(); +pop() }
+
+Command <|.. SetTextCommand
+SetTextCommand --> Editor
+CommandHistory o--> Command
+@enduml
+
+

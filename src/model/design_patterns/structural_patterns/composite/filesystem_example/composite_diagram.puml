@@ -1,0 +1,11 @@
+@startuml Composite_FS
+interface FSNode { +name: string; +size(): number }
+class FileNode
+class FolderNode { +add(node: FSNode): void }
+
+FSNode <|.. FileNode
+FSNode <|.. FolderNode
+FolderNode o--> FSNode
+@enduml
+
+

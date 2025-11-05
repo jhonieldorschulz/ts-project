@@ -1,0 +1,7 @@
+@startuml Iterator_Collection
+class WordsCollection { +[Symbol.iterator]() }
+interface Iterator { +next() }
+WordsCollection --> Iterator
+@enduml
+
+

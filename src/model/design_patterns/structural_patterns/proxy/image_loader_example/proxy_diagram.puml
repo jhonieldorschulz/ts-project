@@ -1,0 +1,11 @@
+@startuml Proxy_Image
+interface Image { +display(): string }
+class RealImage { -loaded: boolean }
+class ImageProxy { -real: RealImage }
+
+Image <|.. RealImage
+Image <|.. ImageProxy
+ImageProxy --> RealImage
+@enduml
+
+

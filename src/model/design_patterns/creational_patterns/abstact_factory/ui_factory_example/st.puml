@@ -1,0 +1,72 @@
+@startuml
+!define ENTITY class
+!define ENUM enum
+
+' Entidades do Domínio
+ENTITY Produto {
+  - id: String
+  - nome: String
+  - ncm: String
+  - valorBase: BigDecimal
+  --
+  + getValorBase(): BigDecimal
+}
+
+ENTITY Operacao {
+  - produto: Produto
+  - estadoOrigem: Estado
+  - estadoDestino: Estado
+  - valorOperacao: BigDecimal
+  - mva: BigDecimal
+  - aliquotaInterna: BigDecimal
+  - reducoes: List<Reducao>
+  --
+  + calcularBaseST(): BigDecimal
+  + calcularICMSST(): BigDecimal
+}
+
+ENUM Estado {
+  SP
+  RJ
+  MG
+  SC
+  RS
+}
+
+ENTITY Reducao {
+  - tipo: TipoReducao
+  - valor: BigDecimal
+  + aplicarReducao(valorBase: BigDecimal): BigDecimal
+}
+
+ENUM TipoReducao {
+  IPI
+  FRETE
+  DESCONTO
+  OUTRAS
+}
+
+' Agregados
+ENTITY CalculoST {
+  - operacao: Operacao
+  - baseCalculoST: BigDecimal
+  - valorICMSST: BigDecimal
+  --
+  + executarCalculo(): ResultadoCalculo
+}
+
+ENTITY ResultadoCalculo {
+  - baseCalculo: BigDecimal
+  - valorICMS: BigDecimal
+  - aliquotasAplicadas: List<BigDecimal>
+  + toString(): String
+}
+
+' Relacionamentos
+Produto ||--o{ Operacao
+Operacao }o--|| Estado
+Operacao ||--o{ Reducao
+Operacao ||--|| CalculoST
+CalculoST ||--|| ResultadoCalculo
+
+@enduml
