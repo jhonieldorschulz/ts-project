@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Mental - Design Patterns (23 Padrões GoF)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --tertiary: #e74c3c;
+            --accent: #9b59b6;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            
+            /* Light theme (default) */
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --header-bg: #ffffff;
+            --border-color: #e9ecef;
+        }
+
+        .dark-theme {
+            --bg-color: #1a1d23;
+            --card-bg: #2d3748;
+            --text-color: #e2e8f0;
+            --header-bg: #2d3748;
+            --border-color: #4a5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-color);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px;
+            background: var(--header-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            width: 60px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            transition: var(--transition);
+            transform: translateX(0);
+        }
+
+        .dark-theme .theme-toggle::before {
+            transform: translateX(30px);
+        }
+
+        .theme-icon {
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        .theme-icon.sun {
+            color: #f39c12;
+            margin-right: auto;
+        }
+
+        .theme-icon.moon {
+            color: #f1c40f;
+            margin-left: auto;
+        }
+
+        .content {
+            display: flex;
+            gap: 25px;
+            min-height: 75vh;
+        }
+
+        /* Sidebar de categorias */
+        .categories-sidebar {
+            flex: 0.3;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-height: 75vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .category-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid transparent;
+        }
+
+        .category-item:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .category-item.creational {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
+        .category-item.structural {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .category-item.behavioral {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--tertiary);
+        }
+
+        .category-item.active {
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: rgba(155, 89, 182, 0.15);
+            border-color: var(--accent);
+        }
+
+        .category-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .creational .category-icon {
+            background-color: var(--primary);
+        }
+
+        .structural .category-icon {
+            background-color: var(--secondary);
+        }
+
+        .behavioral .category-icon {
+            background-color: var(--tertiary);
+        }
+
+        /* Área de padrões */
+        .patterns-area {
+            flex: 0.7;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            max-height: 75vh;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pattern-card {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--accent);
+        }
+
+        .pattern-card.active {
+            border-color: var(--accent);
+            background-color: rgba(155, 89, 182, 0.1);
+        }
+
+        .pattern-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .pattern-name {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .pattern-category {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            background: none;
+            border: none;
+            font-size: 2rem;
+        }
+
+        .close-modal:hover {
+            color: var(--tertiary);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pattern-name-large {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pattern-icon-large {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .pattern-category-badge {
+            font-size: 1rem;
+            color: var(--gray);
+            background: var(--light);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            background-color: rgba(155, 89, 182, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .explanation-content {
+            flex: 1;
+        }
+
+        .explanation-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .section-content {
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .analogy {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .analogy-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .diagram-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .diagram-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .diagram-loading {
+            color: var(--gray);
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .no-selection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--gray);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .no-selection-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .instructions {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            background-color: rgba(155, 89, 182, 0.05);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .categories-sidebar, .patterns-area {
+                min-height: 300px;
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .patterns-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .pattern-name-large {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mapa Mental de Design Patterns</h1>
+            <p class="subtitle">Explore os 23 padrões de projeto GoF organizados por categoria. Cada padrão inclui explicações didáticas, problemas que resolve, soluções, diagramas UML e analogias do mundo real.</p>
+            <div class="theme-toggle" id="theme-toggle">
+                <i class="theme-icon sun fas fa-sun"></i>
+                <i class="theme-icon moon fas fa-moon"></i>
+            </div>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Padrões Criacionais</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">7</div>
+                <div class="stat-label">Padrões Estruturais</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">11</div>
+                <div class="stat-label">Padrões Comportamentais</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">23</div>
+                <div class="stat-label">Total de Padrões</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Sidebar de categorias -->
+            <div class="categories-sidebar">
+                <h2 class="category-title">Categorias</h2>
+                <div class="category-item creational active" data-category="creational">
+                    <div class="category-icon">C</div>
+                    <span>Padrões Criacionais</span>
+                </div>
+                <div class="category-item structural" data-category="structural">
+                    <div class="category-icon">E</div>
+                    <span>Padrões Estruturais</span>
+                </div>
+                <div class="category-item behavioral" data-category="behavioral">
+                    <div class="category-icon">B</div>
+                    <span>Padrões Comportamentais</span>
+                </div>
+            </div>
+            
+            <!-- Área de padrões -->
+            <div class="patterns-area">
+                <h2 class="category-title">Padrões <span id="current-category">Criacionais</span></h2>
+                <div class="patterns-grid" id="patterns-container">
+                    <!-- Os padrões serão inseridos aqui via JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <p class="instructions">Navegue pelas categorias e clique nos padrões para explorar suas funcionalidades, problemas que resolvem e diagramas UML</p>
+    </div>
+
+    <!-- Modal para explicações -->
+    <div class="modal" id="pattern-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <div class="modal-header">
+                <h2 class="pattern-name-large">
+                    <span class="pattern-icon-large" id="modal-icon">🏭</span>
+                    <span id="modal-title">Abstract Factory</span>
+                </h2>
+                <span class="pattern-category-badge" id="modal-category">Padrão Criacional</span>
+            </div>
+            <div class="explanation-content" id="modal-content">
+                <!-- Conteúdo será preenchido via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para codificar PlantUML para URL do servidor (algoritmo PlantUML)
+        function encodePlantUML(text) {
+            // Remove @startuml e @enduml se existirem
+            text = text.replace(/@startuml\s*/g, '').replace(/@enduml\s*/g, '').trim();
+            
+            // Função para codificar 6 bits
+            const encode6bit = (b) => {
+                if (b < 10) return String.fromCharCode(48 + b); // 0-9
+                b -= 10;
+                if (b < 26) return String.fromCharCode(65 + b); // A-Z
+                b -= 26;
+                if (b < 26) return String.fromCharCode(97 + b); // a-z
+                b -= 26;
+                if (b === 0) return '-';
+                if (b === 1) return '_';
+                return '?';
+            };
+            
+            // Compressão usando pako (deflate)
+            const compressed = pako.deflate(text, { level: 9 });
+            
+            // Converte para base64 usando o algoritmo PlantUML
+            let base64 = '';
+            for (let i = 0; i < compressed.length; i += 3) {
+                const b1 = compressed[i] || 0;
+                const b2 = compressed[i + 1] || 0;
+                const b3 = compressed[i + 2] || 0;
+                
+                const bitmap = (b1 << 16) | (b2 << 8) | b3;
+                
+                base64 += encode6bit((bitmap >> 18) & 63);
+                base64 += encode6bit((bitmap >> 12) & 63);
+                base64 += encode6bit((bitmap >> 6) & 63);
+                base64 += encode6bit(bitmap & 63);
+            }
+            
+            return base64;
+        }
+
+        // Função para renderizar diagrama PlantUML
+        function renderPlantUML(plantumlCode, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '<div class="diagram-loading">Carregando diagrama...</div>';
+            
+            try {
+                // Limpa o código PlantUML
+                let cleanCode = plantumlCode.trim();
+                if (!cleanCode.startsWith('@startuml')) {
+                    cleanCode = '@startuml\n' + cleanCode;
+                }
+                if (!cleanCode.endsWith('@enduml')) {
+                    cleanCode = cleanCode + '\n@enduml';
+                }
+                
+                // Codifica o PlantUML
+                const encoded = encodePlantUML(cleanCode);
+                
+                // Usa o servidor PlantUML online
+                const url = `https://www.plantuml.com/plantuml/svg/${encoded}`;
+                
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Diagrama UML';
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.onload = () => {
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                };
+                img.onerror = () => {
+                    // Fallback: tentar com PNG
+                    const pngUrl = `https://www.plantuml.com/plantuml/png/${encoded}`;
+                    const imgPng = document.createElement('img');
+                    imgPng.src = pngUrl;
+                    imgPng.alt = 'Diagrama UML';
+                    imgPng.style.maxWidth = '100%';
+                    imgPng.style.height = 'auto';
+                    imgPng.onload = () => {
+                        container.innerHTML = '';
+                        container.appendChild(imgPng);
+                    };
+                    imgPng.onerror = () => {
+                        container.innerHTML = '<div class="diagram-loading">Erro ao carregar diagrama. Verifique sua conexão com a internet.</div>';
+                    };
+                };
+            } catch (error) {
+                container.innerHTML = '<div class="diagram-loading">Erro ao processar diagrama: ' + error.message + '</div>';
+            }
+        }
+
+        // Dados completos dos 23 padrões de projeto
+        const patternsData = {
+            creational: [
+                { 
+                    name: "Abstract Factory", 
+                    icon: "🏭",
+                    problem: "Como criar famílias de objetos relacionados sem especificar suas classes concretas?",
+                    solution: "Fornece uma interface para criar famílias de objetos relacionados ou dependentes sem especificar suas classes concretas. O padrão permite que o sistema seja independente de como seus objetos são criados, compostos e representados.",
+                    analogy: {
+                        title: "Fábrica de Móveis",
+                        description: "Imagine uma fábrica de móveis que produz conjuntos completos (mesa, cadeiras, armário) em diferentes estilos (moderno, rústico, clássico). O cliente pede um conjunto 'moderno' e recebe todos os móveis nesse estilo, sem precisar saber como cada peça foi fabricada."
+                    },
+                    structure: "AbstractFactory (interface), ConcreteFactory (implementação), AbstractProduct (interface do produto), ConcreteProduct (produto real), Client (usa as interfaces).",
+                    scenario: "Sistema de UI que precisa ser compatível com diferentes temas (claro/escuro) em múltiplos sistemas operacionais.",
+                    benefits: "Isola classes concretas, facilita a troca de famílias de produtos, promove a consistência entre produtos.",
+                    diagram: `@startuml
+package "Products" {
+  interface Button {
+    +render(): string
+    +onClick(): void
+  }
+  interface Checkbox {
+    +render(): string
+    +toggle(): boolean
+  }
+
+  class LightButton
+  class DarkButton
+  class LightCheckbox
+  class DarkCheckbox
+
+  Button <|.. LightButton
+  Button <|.. DarkButton
+  Checkbox <|.. LightCheckbox
+  Checkbox <|.. DarkCheckbox
+}
+
+package "Factory" {
+  interface GUIFactory {
+    +createButton(): Button
+    +createCheckbox(): Checkbox
+  }
+
+  class LightFactory
+  class DarkFactory
+
+  GUIFactory <|.. LightFactory
+  GUIFactory <|.. DarkFactory
+  LightFactory --> LightButton
+  LightFactory --> LightCheckbox
+  DarkFactory --> DarkButton
+  DarkFactory --> DarkCheckbox
+}
+
+package "Client" {
+  class Application {
+    -factory: GUIFactory
+    +constructor(factory: GUIFactory)
+    +renderUI(): string
+  }
+  Application --> GUIFactory
+  Application --> Button
+  Application --> Checkbox
+}
+@enduml`
+                },
+                { 
+                    name: "Builder", 
+                    icon: "🔨",
+                    problem: "Como criar objetos complexos passo a passo, permitindo diferentes representações?",
+                    solution: "Separa a construção de um objeto complexo de sua representação, permitindo o mesmo processo de construção criar diferentes representações. O padrão encapsula a criação e montagem de um produto complexo em um objeto Builder separado.",
+                    analogy: {
+                        title: "Montagem de um Computador",
+                        description: "Ao montar um computador, você escolhe componentes específicos (processador, memória, placa de vídeo) seguindo um processo padrão, mas o resultado final pode variar muito (PC para games, para escritório, servidor)."
+                    },
+                    structure: "Builder (interface), ConcreteBuilder (implementação), Director (controla construção), Product (objeto complexo).",
+                    scenario: "Criação de relatórios complexos com diferentes formatos (HTML, PDF, texto) mas com o mesmo conteúdo.",
+                    benefits: "Permite variar a representação interna de um produto, isola o código de construção e representação, oferece controle refinado sobre o processo de construção.",
+                    diagram: `@startuml
+package "Product" {
+  class BasicPizza {
+    +size: PizzaSize
+    +cheese: boolean
+    +pepperoni: boolean
+    +bacon: boolean
+    +extraSauce: boolean
+    +toString(): string
+  }
+  enum PizzaSize { SMALL; MEDIUM; LARGE }
+}
+
+package "Builder" {
+  interface PizzaBuilder {
+    +reset(): PizzaBuilder
+    +size(size: PizzaSize): PizzaBuilder
+    +withCheese(): PizzaBuilder
+    +withPepperoni(): PizzaBuilder
+    +withBacon(): PizzaBuilder
+    +withExtraSauce(): PizzaBuilder
+    +build(): BasicPizza
+  }
+  class ClassicPizzaBuilder
+  PizzaBuilder <|.. ClassicPizzaBuilder
+}
+
+package "Director" {
+  class PizzaDirector {
+    -builder: PizzaBuilder
+    +makeMargherita(): BasicPizza
+    +makePepperoniLarge(): BasicPizza
+    +makeBaconDeluxe(): BasicPizza
+  }
+  PizzaDirector --> PizzaBuilder
+}
+@enduml`
+                },
+                { 
+                    name: "Factory Method", 
+                    icon: "🏗️",
+                    problem: "Como delegar a criação de objetos para subclasses?",
+                    solution: "Define uma interface para criar um objeto, mas deixa as subclasses decidirem qual classe instanciar. O Factory Method permite que uma classe adie a instanciação para subclasses, promovendo o baixo acoplamento.",
+                    analogy: {
+                        title: "Contratação de Funcionários",
+                        description: "Uma empresa tem um processo padrão de contratação, mas cada departamento (TI, Marketing, Vendas) contrata tipos específicos de profissionais com habilidades especializadas."
+                    },
+                    structure: "Product (interface), ConcreteProduct (implementação), Creator (factory method), ConcreteCreator (implementa factory method).",
+                    scenario: "Framework de aplicações que precisa criar objetos de UI específicos para cada plataforma (Windows, Mac, Linux).",
+                    benefits: "Elimina a necessidade de amarrar código a classes específicas, encoraja o baixo acoplamento, facilita a extensibilidade.",
+                    diagram: `@startuml
+package "Product" {
+  interface Transport {
+    +load(weightKg: number): void
+    +deliver(): string
+  }
+
+  class Truck
+  class Ship
+
+  Transport <|.. Truck
+  Transport <|.. Ship
+}
+
+package "Creator" {
+  abstract class Logistics {
+    +createTransport(): Transport
+  }
+
+  class RoadLogistics
+  class SeaLogistics
+
+  Logistics <|-- RoadLogistics
+  Logistics <|-- SeaLogistics
+  RoadLogistics --> Truck
+  SeaLogistics --> Ship
+}
+@enduml`
+                },
+                { 
+                    name: "Prototype", 
+                    icon: "📋",
+                    problem: "Como criar novos objetos copiando instâncias existentes?",
+                    solution: "Especifica os tipos de objetos a criar usando uma instância prototípica e cria novos objetos copiando este protótipo. Permite adicionar e remover objetos em tempo de execução.",
+                    analogy: {
+                        title: "Fotocópia de Documentos",
+                        description: "Em vez de redigitar um documento completo, você faz uma cópia do original e modifica apenas as partes necessárias, economizando tempo e esforço."
+                    },
+                    structure: "Prototype (interface de clonagem), ConcretePrototype (implementa clonagem), Client (solicita clones).",
+                    scenario: "Editor gráfico onde usuários duplicam elementos complexos (com várias camadas e efeitos) e fazem modificações menores.",
+                    benefits: "Adiciona e remove objetos em tempo de execução, especifica novos objetos variando valores, especifica novos objetos variando estrutura.",
+                    diagram: `@startuml
+interface Prototype { +clone() }
+abstract class Shape { +x; +y; +color; +area(); +clone() }
+class Circle { +radius }
+
+Prototype <|.. Shape
+Shape <|-- Circle
+@enduml`
+                },
+                { 
+                    name: "Singleton", 
+                    icon: "👑",
+                    problem: "Como garantir que uma classe tenha apenas uma instância e fornecer acesso global a ela?",
+                    solution: "Garante que uma classe tenha apenas uma instância e fornece um ponto de acesso global a ela. O padrão controla a criação da instância, garantindo que apenas uma seja criada, e fornece um método para acessá-la.",
+                    analogy: {
+                        title: "Presidente de uma Empresa",
+                        description: "Uma empresa tem apenas um presidente, que é acessível por todos os departamentos quando necessário. Não faz sentido ter múltiplos presidentes tomando decisões conflitantes."
+                    },
+                    structure: "Singleton (classe com método getInstance() que controla a única instância).",
+                    scenario: "Gerenciador de configurações de uma aplicação que precisa ser acessado por vários módulos diferentes.",
+                    benefits: "Acesso controlado à instância única, reduz a necessidade de variáveis globais, permite refinamento de operações e representação.",
+                    diagram: `@startuml
+class Logger {
+  -instance: Logger
+  -logs: string[]
+  -Logger()
+  +getInstance(): Logger
+  +info(message: string): void
+  +error(message: string): void
+  +getLogs(): string[]
+}
+@enduml`
+                }
+            ],
+            structural: [
+                { 
+                    name: "Adapter", 
+                    icon: "🔌",
+                    problem: "Como fazer interfaces incompatíveis trabalharem juntas?",
+                    solution: "Converte a interface de uma classe em outra interface esperada pelos clientes. O Adapter permite que classes com interfaces incompatíveis trabalhem juntas, atuando como um intermediário.",
+                    analogy: {
+                        title: "Adaptador de Tomada",
+                        description: "Quando você viaja para outro país e precisa conectar seu dispositivo em uma tomada com formato diferente, usa um adaptador que faz a 'tradução' entre os dois padrões."
+                    },
+                    structure: "Target (interface esperada), Adaptee (interface existente), Adapter (adapta Adaptee para Target).",
+                    scenario: "Integração com biblioteca de terceiros que possui interface diferente da esperada pelo seu sistema.",
+                    benefits: "Permite a reutilização de classes existentes, permite que classes com interfaces incompatíveis cooperem.",
+                    diagram: `@startuml
+interface PaymentProcessor {
+  +pay(amountCents: number): string
+}
+
+class LegacyGateway {
+  +processarPagamento(valorReais: number): boolean
+}
+
+class LegacyGatewayAdapter {
+  +pay(amountCents: number): string
+}
+
+PaymentProcessor <|.. LegacyGatewayAdapter
+LegacyGatewayAdapter --> LegacyGateway
+
+class Application {
+  -processor: PaymentProcessor
+  +checkout(amountCents: number): string
+}
+Application --> PaymentProcessor
+@enduml`
+                },
+                { 
+                    name: "Bridge", 
+                    icon: "🌉",
+                    problem: "Como desacoplar uma abstração de sua implementação?",
+                    solution: "Desacopla uma abstração de sua implementação, de modo que as duas possam variar independentemente. Usa composição em vez de herança para compartilhar implementações entre diferentes abstrações.",
+                    analogy: {
+                        title: "Controle Remoto e Dispositivos",
+                        description: "Um controle remoto universal (abstração) pode controlar diferentes dispositivos (TV, som, ar-condicionado) sem precisar ser reescrito para cada um. Você pode mudar o dispositivo sem alterar o controle."
+                    },
+                    structure: "Abstraction (interface), RefinedAbstraction (implementação estendida), Implementor (interface de implementação), ConcreteImplementor (implementação concreta).",
+                    scenario: "Sistema de renderização gráfica que funciona com diferentes APIs (OpenGL, DirectX, Vulkan).",
+                    benefits: "Separação entre interface e implementação, melhora a extensibilidade, oculta detalhes de implementação do cliente.",
+                    diagram: `@startuml
+interface Device { +isEnabled(); +enable(); +disable(); +getVolume(); +setVolume() }
+class TV
+class Remote { +togglePower(); +volumeUp(); +volumeDown() }
+class AdvancedRemote { +mute() }
+
+Device <|.. TV
+Remote o--> Device
+AdvancedRemote --|> Remote
+@enduml`
+                },
+                { 
+                    name: "Composite", 
+                    icon: "🌳",
+                    problem: "Como tratar objetos individuais e composições de objetos uniformemente?",
+                    solution: "Compor objetos em estruturas de árvore para representar hierarquias parte-todo. Composite permite que os clientes tratem objetos individuais e composições de objetos de forma uniforme.",
+                    analogy: {
+                        title: "Estrutura de Diretórios",
+                        description: "No sistema de arquivos, tanto arquivos individuais quanto pastas (que contêm outros arquivos/pastas) podem ser movidos, copiados ou excluídos da mesma maneira."
+                    },
+                    structure: "Component (interface comum), Leaf (objeto individual), Composite (contém componentes filhos).",
+                    scenario: "Sistema de menus com submenus aninhados, onde cada item de menu pode ser tratado da mesma forma.",
+                    benefits: "Define hierarquias de objetos parte-todo, simplifica o código cliente, facilita a adição de novos tipos de componentes.",
+                    diagram: `@startuml
+interface FSNode { +name: string; +size(): number }
+class FileNode
+class FolderNode { +add(node: FSNode): void }
+
+FSNode <|.. FileNode
+FSNode <|.. FolderNode
+FolderNode o--> FSNode
+@enduml`
+                },
+                { 
+                    name: "Decorator", 
+                    icon: "🎨",
+                    problem: "Como adicionar responsabilidades a objetos dinamicamente?",
+                    solution: "Anexa responsabilidades adicionais a um objeto dinamicamente. Os decoradores fornecem uma alternativa flexível à subclasse para extensão de funcionalidade.",
+                    analogy: {
+                        title: "Personalização de um Café",
+                        description: "Você pede um café básico e vai adicionando extras (leite, chantilly, caramelo) conforme deseja, sem modificar a receita original do café."
+                    },
+                    structure: "Component (interface), ConcreteComponent (objeto base), Decorator (mantém referência a Component), ConcreteDecorator (adiciona funcionalidades).",
+                    scenario: "Sistema de notificações onde você pode adicionar diferentes canais (email, SMS, push) a uma notificação básica.",
+                    benefits: "Mais flexível que herança, evita classes sobrecarregadas de funcionalidades, permite adicionar e remover responsabilidades dinamicamente.",
+                    diagram: `@startuml
+interface Coffee { +cost(): number; +description(): string }
+class SimpleCoffee
+abstract class CoffeeDecorator
+class MilkDecorator
+class SugarDecorator
+
+Coffee <|.. SimpleCoffee
+Coffee <|.. CoffeeDecorator
+CoffeeDecorator <|-- MilkDecorator
+CoffeeDecorator <|-- SugarDecorator
+CoffeeDecorator o--> Coffee
+@enduml`
+                },
+                { 
+                    name: "Facade", 
+                    icon: "🏢",
+                    problem: "Como fornecer uma interface simples para um subsistema complexo?",
+                    solution: "Fornece uma interface unificada para um conjunto de interfaces em um subsistema. A Facade define uma interface de nível mais alto que torna o subsistema mais fácil de usar.",
+                    analogy: {
+                        title: "Receptionista de Hotel",
+                        description: "Em vez de lidar separadamente com reservas, restaurante, limpeza e manutenção, os hóspedes falam apenas com o receptionista, que coordena todos os serviços internos."
+                    },
+                    structure: "Facade (interface simplificada), classes do subsistema (implementam funcionalidade complexa).",
+                    scenario: "Biblioteca complexa de processamento de vídeo com uma interface simples para operações comuns.",
+                    benefits: "Isola clientes dos componentes do subsistema, promove o baixo acoplamento, simplifica a interface com o subsistema.",
+                    diagram: `@startuml
+class NotificationFacade {
+  +sendWelcome(user): string[]
+}
+
+class EmailService { +send(to, subject, body): string }
+class SmsService { +send(to, text): string }
+class PushService { +send(deviceId, title, message): string }
+
+NotificationFacade --> EmailService
+NotificationFacade --> SmsService
+NotificationFacade --> PushService
+@enduml`
+                },
+                { 
+                    name: "Flyweight", 
+                    icon: "🪶",
+                    problem: "Como suportar grandes quantidades de objetos de forma eficiente?",
+                    solution: "Usa compartilhamento para suportar grandes quantidades de objetos de granularidade fina de maneira eficiente. Um objeto flyweight pode ser usado em múltiplos contextos simultaneamente.",
+                    analogy: {
+                        title: "Biblioteca de Caracteres",
+                        description: "Em vez de armazenar cada caractere individualmente com todos seus atributos (fonte, tamanho, cor), o processador armazena os caracteres uma vez e compartilha essa informação, guardando apenas as diferenças (posição na página)."
+                    },
+                    structure: "Flyweight (interface), ConcreteFlyweight (objeto compartilhável), FlyweightFactory (gerencia flyweights), Client (usa flyweights).",
+                    scenario: "Editor de texto que precisa renderizar milhares de caracteres idênticos na tela de forma eficiente.",
+                    benefits: "Redução no número de objetos, economia de memória, objetos compartilhados podem ser usados em múltiplos contextos.",
+                    diagram: `@startuml
+class Font { +family; +size }
+class FontFactory { +getFont(); +cacheSize() }
+class Glyph { +char; +x; +y; +render() }
+
+FontFactory --> Font
+Glyph --> Font
+@enduml`
+                },
+                { 
+                    name: "Proxy", 
+                    icon: "🛡️",
+                    problem: "Como controlar o acesso a um objeto?",
+                    solution: "Fornece um substituto ou marcador de lugar para outro objeto para controlar o acesso a ele. O Proxy atua como um intermediário, controlando o acesso ao objeto real.",
+                    analogy: {
+                        title: "Assistente Pessoal",
+                        description: "Um assistente atende ligações, filtra solicitações e só repassa ao executivo as chamadas importantes, protegendo-o de interrupções desnecessárias."
+                    },
+                    structure: "Proxy (intermediário), Subject (interface comum), RealSubject (objeto real).",
+                    scenario: "Sistema de cache para objetos pesados que são caros para criar ou acessar.",
+                    benefits: "Controle de acesso ao objeto real, funcionalidades adicionais sem modificar o objeto real, representação remota de objetos.",
+                    diagram: `@startuml
+interface Image { +display(): string }
+class RealImage { -loaded: boolean }
+class ImageProxy { -real: RealImage }
+
+Image <|.. RealImage
+Image <|.. ImageProxy
+ImageProxy --> RealImage
+@enduml`
+                }
+            ],
+            behavioral: [
+                { 
+                    name: "Chain of Responsibility", 
+                    icon: "⛓️",
+                    problem: "Como evitar acoplamento entre remetente e receptor de uma solicitação?",
+                    solution: "Evita acoplar o remetente de uma solicitação ao seu receptor, dando a mais de um objeto a chance de tratar a solicitação. Encadeia os objetos receptores e passa a solicitação ao longo da cadeia até que um objeto a trate.",
+                    analogy: {
+                        title: "Suporte Técnico em Níveis",
+                        description: "Um problema técnico passa por diferentes níveis de suporte (1º, 2º, 3º nível). Cada nível tenta resolver o problema e, se não conseguir, repassa para o próximo nível especializado."
+                    },
+                    structure: "Handler (interface de tratamento), ConcreteHandler (trata solicitações), Client (inicia solicitação na cadeia).",
+                    scenario: "Sistema de processamento de pedidos onde diferentes departamentos (estoque, financeiro, logística) validam partes específicas do pedido.",
+                    benefits: "Reduz o acoplamento, aumenta a flexibilidade na atribuição de responsabilidades, permite adicionar ou modificar handlers dinamicamente.",
+                    diagram: `@startuml
+abstract class Handler { +setNext(); +handle(); #process() }
+class L1Handler
+class L2Handler
+class L3Handler
+
+Handler <|-- L1Handler
+Handler <|-- L2Handler
+Handler <|-- L3Handler
+L1Handler --> Handler : next
+L2Handler --> Handler : next
+@enduml`
+                },
+                { 
+                    name: "Command", 
+                    icon: "📝",
+                    problem: "Como parametrizar objetos com operações e suportar desfazer/refazer?",
+                    solution: "Encapsula uma solicitação como um objeto, permitindo parametrizar clientes com diferentes solicitações, enfileirar ou registrar solicitações e suportar operações que podem ser desfeitas.",
+                    analogy: {
+                        title: "Pedido em um Restaurante",
+                        description: "O garçom anota o pedido (comando) e leva para a cozinha, separando quem pediu (cliente) de quem executa (cozinheiro). O pedido pode ser cancelado ou modificado antes de ser preparado."
+                    },
+                    structure: "Command (interface de execução), ConcreteCommand (implementa ação), Invoker (solicita execução), Receiver (executa operação).",
+                    scenario: "Editor de texto com funcionalidade de desfazer/refazer onde cada ação do usuário é encapsulada como um comando.",
+                    benefits: "Desacopla o objeto que invoca a operação do objeto que a executa, permite enfileirar operações, suporta operações de desfazer.",
+                    diagram: `@startuml
+interface Command {
+  +execute()
+  +undo()
+}
+class SetTextCommand { -prev }
+class Editor { +setText(); +getText() }
+class CommandHistory { +push(); +pop() }
+
+Command <|.. SetTextCommand
+SetTextCommand --> Editor
+CommandHistory o--> Command
+@enduml`
+                },
+                { 
+                    name: "Interpreter", 
+                    icon: "🔤",
+                    problem: "Como avaliar sentenças em uma linguagem?",
+                    solution: "Dada uma linguagem, define uma representação para sua gramática junto com um interpretador que usa a representação para interpretar sentenças na linguagem.",
+                    analogy: {
+                        title: "Tradutor Simultâneo",
+                        description: "Um tradutor interpreta frases em uma língua estrangeira, analisando a gramática e o vocabulário para produzir uma tradução correta na língua nativa."
+                    },
+                    structure: "AbstractExpression (interface interpretar), TerminalExpression (símbolos terminais), NonterminalExpression (símbolos não terminais), Context (informação global).",
+                    scenario: "Calculadora que processa expressões matemáticas fornecidas como strings.",
+                    benefits: "Fácil alteração e extensão da gramática, implementação da gramática é straightforward, fácil implementação da linguagem.",
+                    diagram: `@startuml
+interface Expr { +eval() }
+class Var { +name }
+class And { +left; +right }
+class Or { +left; +right }
+class Not { +expr }
+
+Expr <|.. Var
+Expr <|.. And
+Expr <|.. Or
+Expr <|.. Not
+@enduml`
+                },
+                { 
+                    name: "Iterator", 
+                    icon: "🔍",
+                    problem: "Como acessar elementos de uma coleção sequencialmente sem expor sua estrutura interna?",
+                    solution: "Fornece uma maneira de acessar sequencialmente os elementos de um objeto agregado sem expor sua representação subjacente.",
+                    analogy: {
+                        title: "Controle de TV",
+                        description: "Você usa o controle para navegar pelos canais (próximo, anterior) sem precisar saber como a TV armazena e organiza a lista de canais internamente."
+                    },
+                    structure: "Iterator (interface de travessia), ConcreteIterator (implementa travessia), Aggregate (interface de criação), ConcreteAggregate (implementa criação).",
+                    scenario: "Percorrer elementos de diferentes estruturas de dados (lista, árvore, grafo) usando uma interface uniforme.",
+                    benefits: "Suporta diferentes formas de travessia, simplifica a interface do agregado, permite múltiplas travessias simultâneas.",
+                    diagram: `@startuml
+class WordsCollection { +[Symbol.iterator]() }
+interface Iterator { +next() }
+WordsCollection --> Iterator
+@enduml`
+                },
+                { 
+                    name: "Mediator", 
+                    icon: "📞",
+                    problem: "Como reduzir acoplamento entre objetos que se comunicam?",
+                    solution: "Define um objeto que encapsula como um conjunto de objetos interage. O Mediator promove o acoplamento fraco ao evitar que os objetos se refiram uns aos outros explicitamente, e permite variar suas interações independentemente.",
+                    analogy: {
+                        title: "Controlador de Tráfego Aéreo",
+                        description: "Em vez dos aviões se comunicarem diretamente (o que causaria caos), todos falam com o controlador de tráfego, que coordena os movimentos e evita colisões."
+                    },
+                    structure: "Mediator (interface de comunicação), ConcreteMediator (coordena colleagues), Colleague (objetos que se comunicam).",
+                    scenario: "Sistema de UI com múltiplos componentes (botões, campos, listas) que precisam se sincronizar sem referências diretas entre si.",
+                    benefits: "Reduz o número de dependências entre objetos, centraliza o controle, simplifica a comunicação entre objetos.",
+                    diagram: `@startuml
+interface Mediator { +broadcast() }
+class ChatMediator { +register(); +broadcast() }
+class User { +name; +inbox; +send(); +receive() }
+
+User --> Mediator
+ChatMediator ..> User : callbacks
+@enduml`
+                },
+                { 
+                    name: "Memento", 
+                    icon: "💾",
+                    problem: "Como capturar e restaurar o estado interno de um objeto sem violar o encapsulamento?",
+                    solution: "Sem violar o encapsulamento, captura e externaliza o estado interno de um objeto, para que o objeto possa ser restaurado para este estado mais tarde.",
+                    analogy: {
+                        title: "Salvamento de Jogo",
+                        description: "Em um videogame, você pode salvar seu progresso em um ponto específico e, se algo der errado, restaurar o jogo exatamente daquele ponto."
+                    },
+                    structure: "Memento (armazena estado), Originator (cria e usa mementos), Caretaker (guarda mementos).",
+                    scenario: "Editor de documentos com funcionalidade de desfazer que precisa restaurar estados anteriores do documento.",
+                    benefits: "Preserva os limites de encapsulamento, simplifica o originador, uso potencialmente caro.",
+                    diagram: `@startuml
+class Editor { +setText(); +getText(); +save(); +restore() }
+class Memento { +getState() }
+class History { +push(); +pop() }
+
+Editor --> Memento
+History o--> Memento
+@enduml`
+                },
+                { 
+                    name: "Observer", 
+                    icon: "👀",
+                    problem: "Como notificar objetos sobre mudanças em outro objeto?",
+                    solution: "Define uma dependência um-para-muitos entre objetos, de modo que quando um objeto muda de estado, todos os seus dependentes são notificados e atualizados automaticamente.",
+                    analogy: {
+                        title: "Sistema de Assinatura de Notícias",
+                        description: "Os leitores se inscrevem em um jornal para receber as últimas edições. Quando uma nova edição é publicada, todos os assinantes são automaticamente notificados."
+                    },
+                    structure: "Subject (mantém observadores), ConcreteSubject (notifica observadores), Observer (interface de atualização), ConcreteObserver (reage a mudanças).",
+                    scenario: "Sistema de monitoramento de ações na bolsa de valores que atualiza múltiplas telas quando os preços mudam.",
+                    benefits: "Acoplamento abstrato entre subject e observer, suporte para comunicação broadcast, notificações imprevisíveis.",
+                    diagram: `@startuml
+interface Observer {
+  +update()
+}
+class Newsletter {
+  +subscribe()
+  +unsubscribe()
+  +publish()
+}
+class UserObserver {
+  +name
+  +inbox
+  +update()
+}
+
+Observer <|.. UserObserver
+Newsletter --> Observer
+@enduml`
+                },
+                { 
+                    name: "State", 
+                    icon: "🔄",
+                    problem: "Como alterar o comportamento de um objeto quando seu estado muda?",
+                    solution: "Permite que um objeto altere seu comportamento quando seu estado interno muda. O objeto parecerá ter mudado de classe.",
+                    analogy: {
+                        title: "Semáforo",
+                        description: "Um semáforo muda seu comportamento (vermelho=parar, amarelo=atenção, verde=seguir) conforme seu estado atual, mas a interface (as luzes) permanece a mesma."
+                    },
+                    structure: "Context (mantém estado atual), State (interface de estado), ConcreteState (implementa comportamento para um estado).",
+                    scenario: "Player de mídia que se comporta diferentemente quando está reproduzindo, pausado ou parado.",
+                    benefits: "Localiza o comportamento específico de estado, torna explícitas as transições de estado, objetos State podem ser compartilhados.",
+                    diagram: `@startuml
+interface PlayerState { +play(); +pause() }
+class PlayingState
+class PausedState
+class Player { -state: PlayerState; +play(); +pause() }
+
+PlayerState <|.. PlayingState
+PlayerState <|.. PausedState
+Player --> PlayerState
+@enduml`
+                },
+                { 
+                    name: "Strategy", 
+                    icon: "🎯",
+                    problem: "Como definir uma família de algoritmos e torná-los intercambiáveis?",
+                    solution: "Define uma família de algoritmos, encapsula cada um e os torna intercambiáveis. O Strategy permite que o algoritmo varie independentemente dos clientes que o usam.",
+                    analogy: {
+                        title: "Meios de Transporte",
+                        description: "Para ir do ponto A ao ponto B, você pode escolher diferentes estratégias: carro, ônibus, bicicleta, a pé. O objetivo é o mesmo, mas a implementação e características de cada meio variam."
+                    },
+                    structure: "Strategy (interface do algoritmo), ConcreteStrategy (implementa algoritmo), Context (usa Strategy).",
+                    scenario: "Sistema de pagamento que suporta diferentes métodos (cartão, PayPal, boleto) com a mesma interface.",
+                    benefits: "Famílias de algoritmos relacionados, alternativa à herança, elimina declarações condicionais.",
+                    diagram: `@startuml
+interface PricingStrategy {
+  +calculate()
+}
+class RegularPricing
+class BlackFridayPricing
+class VipPricing
+
+PricingStrategy <|.. RegularPricing
+PricingStrategy <|.. BlackFridayPricing
+PricingStrategy <|.. VipPricing
+
+class PricingContext {
+  -strategy: PricingStrategy
+  +setStrategy()
+  +finalPrice()
+}
+PricingContext --> PricingStrategy
+@enduml`
+                },
+                { 
+                    name: "Template Method", 
+                    icon: "📄",
+                    problem: "Como definir o esqueleto de um algoritmo, deixando subclasses preencherem etapas específicas?",
+                    solution: "Define o esqueleto de um algoritmo em uma operação, deixando alguns passos para serem definidos pelas subclasses. O Template Method permite que subclasses redefinam certos passos de um algoritmo sem alterar sua estrutura.",
+                    analogy: {
+                        title: "Receita de Bolo",
+                        description: "Uma receita de bolo tem etapas fixas (misturar, assar, decorar), mas cada tipo de bolo (chocolate, baunilha, morango) tem ingredientes diferentes na etapa de mistura."
+                    },
+                    structure: "AbstractClass (define template method e métodos abstratos), ConcreteClass (implementa métodos abstratos).",
+                    scenario: "Processamento de dados onde o fluxo é o mesmo (normalizar, processar, formatar), mas cada formato (CSV, JSON, XML) tem implementação diferente.",
+                    benefits: "Reutilização de código, controle de estrutura do algoritmo, facilita extensão.",
+                    diagram: `@startuml
+abstract class DataExporter {
+  +export()
+  #normalize()
+  #format()
+  #wrap()
+}
+class CSVExporter
+class JSONExporter
+
+DataExporter <|-- CSVExporter
+DataExporter <|-- JSONExporter
+@enduml`
+                },
+                { 
+                    name: "Visitor", 
+                    icon: "👤",
+                    problem: "Como definir novas operações sobre uma estrutura de objetos sem alterar as classes?",
+                    solution: "Representa uma operação a ser executada nos elementos de uma estrutura de objetos. O Visitor permite definir uma nova operação sem alterar as classes dos elementos sobre os quais opera.",
+                    analogy: {
+                        title: "Médico Visitando Pacientes",
+                        description: "Um médico visita diferentes pacientes (crianças, adultos, idosos) em um hospital. Cada tipo de paciente tem características diferentes, mas o médico aplica o mesmo processo de exame adaptado a cada um."
+                    },
+                    structure: "Visitor (interface com métodos visit), ConcreteVisitor (implementa operações), Element (aceita visitor), ConcreteElement (implementa accept).",
+                    scenario: "Compilador que precisa aplicar diferentes análises (sintática, semântica, otimização) sobre uma árvore de sintaxe abstrata (AST).",
+                    benefits: "Fácil adicionar novas operações, separa algoritmos das estruturas de dados, permite acumular estado durante a travessia.",
+                    diagram: `@startuml
+interface Visitor { +visitNumber(); +visitAdd() }
+interface Node { +accept() }
+class NumberNode { +value }
+class AddNode { +left; +right }
+class EvalVisitor
+
+Node <|.. NumberNode
+Node <|.. AddNode
+Visitor <|.. EvalVisitor
+NumberNode --> Visitor : accept
+AddNode --> Visitor : accept
+@enduml`
+                }
+            ]
+        };
+
+        // Inicialização da aplicação
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar com a categoria Criacional
+            loadCategory('creational');
+            
+            // Adicionar event listeners para as categorias
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remover classe active de todas as categorias
+                    document.querySelectorAll('.category-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    
+                    // Adicionar classe active à categoria clicada
+                    this.classList.add('active');
+                    
+                    // Carregar a categoria selecionada
+                    const category = this.getAttribute('data-category');
+                    loadCategory(category);
+                });
+            });
+            
+            // Configurar o modal
+            const modal = document.getElementById('pattern-modal');
+            const closeModal = document.getElementById('close-modal');
+            
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Configurar o toggle de tema
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-theme');
+                
+                // Salvar preferência no localStorage
+                if (document.body.classList.contains('dark-theme')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // Verificar preferência salva
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            }
+        });
+
+        // Função para carregar uma categoria
+        function loadCategory(category) {
+            const patterns = patternsData[category];
+            const container = document.getElementById('patterns-container');
+            const categoryTitle = document.getElementById('current-category');
+            
+            // Atualizar título da categoria
+            let categoryName = '';
+            switch(category) {
+                case 'creational': categoryName = 'Criacionais'; break;
+                case 'structural': categoryName = 'Estruturais'; break;
+                case 'behavioral': categoryName = 'Comportamentais'; break;
+            }
+            categoryTitle.textContent = categoryName;
+            
+            // Limpar container
+            container.innerHTML = '';
+            
+            // Adicionar padrões ao container
+            patterns.forEach(pattern => {
+                const patternCard = document.createElement('div');
+                patternCard.className = 'pattern-card';
+                patternCard.setAttribute('data-pattern', pattern.name);
+                
+                patternCard.innerHTML = `
+                    <div class="pattern-icon">${pattern.icon}</div>
+                    <div class="pattern-name">${pattern.name}</div>
+                    <div class="pattern-category">${categoryName}</div>
+                `;
+                
+                patternCard.addEventListener('click', function() {
+                    // Remover classe active de todos os padrões
+                    document.querySelectorAll('.pattern-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                    
+                    // Adicionar classe active ao padrão clicado
+                    this.classList.add('active');
+                    
+                    // Mostrar explicação do padrão no modal
+                    showPatternModal(pattern, categoryName);
+                });
+                
+                container.appendChild(patternCard);
+            });
+        }
+
+        // Função para mostrar o modal com a explicação do padrão
+        function showPatternModal(pattern, categoryName) {
+            const modal = document.getElementById('pattern-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalIcon = document.getElementById('modal-icon');
+            const modalCategory = document.getElementById('modal-category');
+            const modalContent = document.getElementById('modal-content');
+            
+            // Atualizar informações básicas do modal
+            modalTitle.textContent = pattern.name;
+            modalIcon.textContent = pattern.icon;
+            modalCategory.textContent = `Padrão ${categoryName}`;
+            
+            // Criar ID único para o container do diagrama
+            const diagramId = 'diagram-' + Date.now();
+            
+            // Construir conteúdo do modal
+            modalContent.innerHTML = `
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-question-circle"></i> Problema Resolvido</h3>
+                    <p class="section-content">${pattern.problem}</p>
+                </div>
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-lightbulb"></i> Solução Proposta</h3>
+                    <p class="section-content">${pattern.solution}</p>
+                </div>
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-brain"></i> Analogia do Mundo Real</h3>
+                    <div class="analogy">
+                        <div class="analogy-title">${pattern.analogy.title}</div>
+                        <p>${pattern.analogy.description}</p>
+                    </div>
+                </div>
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-sitemap"></i> Estrutura do Padrão</h3>
+                    <p class="section-content">${pattern.structure}</p>
+                </div>
+                ${pattern.diagram ? `
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-project-diagram"></i> Diagrama UML</h3>
+                    <div class="diagram-container" id="${diagramId}"></div>
+                </div>
+                ` : ''}
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-laptop-code"></i> Cenário de Uso</h3>
+                    <p class="section-content">${pattern.scenario}</p>
+                </div>
+                ${pattern.benefits ? `
+                <div class="explanation-section">
+                    <h3 class="section-title"><i class="fas fa-star"></i> Benefícios</h3>
+                    <p class="section-content">${pattern.benefits}</p>
+                </div>
+                ` : ''}
+            `;
+            
+            // Renderizar diagrama se existir
+            if (pattern.diagram) {
+                setTimeout(() => {
+                    renderPlantUML(pattern.diagram, diagramId);
+                }, 100);
+            }
+            
+            // Exibir o modal
+            modal.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
+
