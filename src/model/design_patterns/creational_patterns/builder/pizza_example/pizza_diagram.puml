@@ -1,0 +1,45 @@
+@startuml Builder_Pizza
+package "Product" {
+  class BasicPizza {
+    +size: PizzaSize
+    +cheese: boolean
+    +pepperoni: boolean
+    +bacon: boolean
+    +extraSauce: boolean
+    +toString(): string
+  }
+  enum PizzaSize { SMALL; MEDIUM; LARGE }
+}
+
+package "Builder" {
+  interface PizzaBuilder {
+    +reset(): PizzaBuilder
+    +size(size: PizzaSize): PizzaBuilder
+    +withCheese(): PizzaBuilder
+    +withPepperoni(): PizzaBuilder
+    +withBacon(): PizzaBuilder
+    +withExtraSauce(): PizzaBuilder
+    +build(): BasicPizza
+  }
+  class ClassicPizzaBuilder
+  PizzaBuilder <|.. ClassicPizzaBuilder
+}
+
+package "Director" {
+  class PizzaDirector {
+    -builder: PizzaBuilder
+    +makeMargherita(): BasicPizza
+    +makePepperoniLarge(): BasicPizza
+    +makeBaconDeluxe(): BasicPizza
+  }
+  PizzaDirector --> PizzaBuilder
+}
+
+package "Client" {
+  class Application {
+    +makeMenu(): string[]
+  }
+}
+@enduml
+
+

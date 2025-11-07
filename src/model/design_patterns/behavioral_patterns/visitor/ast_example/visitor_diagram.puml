@@ -1,0 +1,15 @@
+@startuml Visitor_AST
+interface Visitor { +visitNumber(); +visitAdd() }
+interface Node { +accept() }
+class NumberNode { +value }
+class AddNode { +left; +right }
+class EvalVisitor
+
+Node <|.. NumberNode
+Node <|.. AddNode
+Visitor <|.. EvalVisitor
+NumberNode --> Visitor : accept
+AddNode --> Visitor : accept
+@enduml
+
+

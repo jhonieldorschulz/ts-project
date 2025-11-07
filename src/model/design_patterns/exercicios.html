@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de Design Patterns - Guia Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .pattern-card {
+            transition: all 0.3s ease;
+        }
+        
+        .pattern-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .exercise-card {
+            transition: all 0.2s ease;
+        }
+        
+        .exercise-card:hover {
+            transform: translateX(4px);
+        }
+        
+        .code-block {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-creational {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        
+        .gradient-structural {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+        }
+        
+        .gradient-behavioral {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2">Exercícios de Design Patterns</h1>
+                    <p class="text-xl text-gray-200">Guia completo de exercícios práticos para os 23 padrões GoF</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-5xl font-bold" id="total-exercises">50+</div>
+                    <div class="text-gray-200">Exercícios</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <section class="bg-white shadow-sm">
+        <div class="container mx-auto px-6 py-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600">5</div>
+                    <div class="text-gray-600">Padrões Criacionais</div>
+                    <div class="text-sm text-gray-500 mt-1">25 exercícios</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600">7</div>
+                    <div class="text-gray-600">Padrões Estruturais</div>
+                    <div class="text-sm text-gray-500 mt-1">35 exercícios</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-red-600">11</div>
+                    <div class="text-gray-600">Padrões Comportamentais</div>
+                    <div class="text-sm text-gray-500 mt-1">55 exercícios</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Padrões Criacionais -->
+        <section class="mb-12">
+            <div class="gradient-creational text-white rounded-t-lg px-6 py-4">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-cube mr-3"></i>
+                    Padrões Criacionais (5 padrões, 25 exercícios)
+                </h2>
+            </div>
+            
+            <div class="bg-white rounded-b-lg shadow-lg p-6 space-y-8">
+                <!-- Abstract Factory -->
+                <div class="pattern-card border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Abstract Factory</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">1.</span> Sistema de Notificações Multi-Plataforma
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar sistema de notificações que funcione em diferentes plataformas (Web, Mobile, Desktop) com componentes compatíveis.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/abstact_factory/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/abstact_factory/exercicios/1/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">2.</span> Sistema de Relatórios Multi-Formato
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Gerar relatórios em diferentes formatos (PDF, HTML, Markdown) com componentes compatíveis (Header, Footer, Body).</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/abstact_factory/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/abstact_factory/exercicios/2/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">3.</span> Sistema de Autenticação Multi-Provedor
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Suportar autenticação através de diferentes provedores (Google, Facebook, GitHub) com componentes compatíveis.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/abstact_factory/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/abstact_factory/exercicios/3/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">4.</span> Sistema de Cache Multi-Backend
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Suportar diferentes backends de cache (Redis, Memcached, In-Memory) com componentes compatíveis.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/abstact_factory/exercicios/4/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/abstact_factory/exercicios/4/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">5.</span> Sistema de Logging Multi-Destino
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Suportar logging para diferentes destinos (Console, File, Database) com componentes compatíveis.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/abstact_factory/exercicios/5/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/abstact_factory/exercicios/5/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Builder -->
+                <div class="pattern-card border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Builder</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">1.</span> Construção de Consultas SQL
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Construir consultas SQL complexas passo a passo de forma fluente e legível.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/builder/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/builder/exercicios/1/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">2.</span> Construção de URLs HTTP
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Construir URLs HTTP complexas passo a passo com protocolo, host, porta, path, query parameters.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/builder/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/builder/exercicios/2/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">3.</span> Construção de Mensagens de Email
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Construir mensagens de email complexas passo a passo com remetente, destinatários, assunto, corpo, anexos.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/builder/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/builder/exercicios/3/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">4.</span> Construção de Documentos HTML
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Construir documentos HTML complexos passo a passo com doctype, head, body e vários elementos.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/builder/exercicios/4/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/builder/exercicios/4/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">5.</span> Construção de Consultas de API REST
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Construir requisições HTTP REST complexas passo a passo com método, URL, headers, query params, body.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/builder/exercicios/5/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/builder/exercicios/5/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Factory Method -->
+                <div class="pattern-card border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Factory Method</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">1.</span> Sistema de Exportação de Dados
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Exportar dados em diferentes formatos (CSV, JSON, XML) delegando criação para subclasses.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/factory_method/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/factory_method/exercicios/1/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">2.</span> Sistema de Criação de Conexões de Banco de Dados
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar conexões de banco de dados para diferentes tipos (MySQL, PostgreSQL, SQLite) delegando criação para subclasses.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/factory_method/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/factory_method/exercicios/2/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">3.</span> Sistema de Criação de Serializadores
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar serializadores para diferentes formatos (JSON, XML, YAML) delegando criação para subclasses.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/factory_method/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/factory_method/exercicios/3/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">4.</span> Sistema de Criação de Notificadores
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar notificadores para diferentes canais (Email, SMS, Push) delegando criação para subclasses.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/factory_method/exercicios/4/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/factory_method/exercicios/4/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">5.</span> Sistema de Criação de Validadores
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar validadores para diferentes tipos de dados (Email, CPF, CNPJ, CEP) delegando criação para subclasses.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/factory_method/exercicios/5/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/factory_method/exercicios/5/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Singleton -->
+                <div class="pattern-card border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Singleton</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">1.</span> Gerenciador de Configurações Global
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Garantir uma única instância do gerenciador de configurações acessível globalmente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/singleton/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/singleton/exercicios/1/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">2.</span> Gerenciador de Cache Global
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Garantir uma única instância do gerenciador de cache acessível globalmente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/singleton/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/singleton/exercicios/2/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">3.</span> Gerenciador de Sessão Global
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Garantir uma única instância do gerenciador de sessão acessível globalmente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/singleton/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/singleton/exercicios/3/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">4.</span> Gerenciador de Conexões de Banco de Dados
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Garantir uma única instância do gerenciador de pool de conexões acessível globalmente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/singleton/exercicios/4/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/singleton/exercicios/4/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">5.</span> Gerenciador de Eventos Global
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Garantir uma única instância do gerenciador de eventos (Event Bus) acessível globalmente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/singleton/exercicios/5/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/singleton/exercicios/5/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prototype -->
+                <div class="pattern-card border-l-4 border-blue-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Prototype</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">1.</span> Sistema de Templates de Email
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Clonar templates de email existentes para criar emails similares com pequenas variações.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/prototype/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/prototype/exercicios/1/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">2.</span> Sistema de Clonagem de Configurações
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Clonar configurações de sistema existentes para criar configurações similares com pequenas variações.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/prototype/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/prototype/exercicios/2/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">3.</span> Sistema de Clonagem de Formulários
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Clonar formulários web existentes para criar formulários similares com pequenas variações.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/prototype/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/prototype/exercicios/3/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">4.</span> Sistema de Clonagem de Perfis de Usuário
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Clonar perfis de usuário existentes para criar perfis similares com pequenas variações.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/prototype/exercicios/4/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/prototype/exercicios/4/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-blue-600 font-bold">5.</span> Sistema de Clonagem de Objetos de Jogo
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Clonar objetos de jogo existentes (armas, itens, NPCs) para criar objetos similares com pequenas variações.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">creational_patterns/prototype/exercicios/5/</code>
+                                    </div>
+                                </div>
+                                <a href="creational_patterns/prototype/exercicios/5/README.md" target="_blank" class="ml-4 text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Padrões Estruturais -->
+        <section class="mb-12">
+            <div class="gradient-structural text-white rounded-t-lg px-6 py-4">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-sitemap mr-3"></i>
+                    Padrões Estruturais (7 padrões, 35 exercícios)
+                </h2>
+            </div>
+            
+            <div class="bg-white rounded-b-lg shadow-lg p-6 space-y-8">
+                <!-- Adapter -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Adapter</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Integração com Sistema Legado de Pagamento
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Adaptar interface legada de pagamento para a interface esperada pelo sistema moderno.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/adapter/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/adapter/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">2.</span> Adaptador para Sistema de Logging Legado
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Adaptar interface legada de logging para a interface esperada pelo sistema moderno.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/adapter/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/adapter/exercicios/2/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">3.</span> Adaptador para API de Terceiros
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Adaptar formato de resposta da API externa para o formato esperado pelo sistema.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/adapter/exercicios/3/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/adapter/exercicios/3/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bridge -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Bridge</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema de Renderização Multi-API
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Sistema de renderização gráfica que funciona com diferentes APIs (OpenGL, DirectX, Vulkan).</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/bridge/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/bridge/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Composite -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Composite</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema de Menu Hierárquico
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Sistema de menu onde menus e submenus são tratados uniformemente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/composite/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/composite/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorator -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Decorator</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema de Notificações com Extras
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Adicionar funcionalidades extras (prioridade, criptografia, agendamento) a notificações dinamicamente.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/decorator/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/decorator/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Facade -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Facade</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema Simplificado de Compra Online
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Fornecer interface simples para subsistema complexo de compra (pagamento, estoque, frete, notificação).</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/facade/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/facade/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flyweight -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Flyweight</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema de Renderização de Texto Eficiente
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Compartilhar propriedades intrínsecas (fonte, tamanho) entre caracteres para economizar memória.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/flyweight/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/flyweight/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proxy -->
+                <div class="pattern-card border-l-4 border-green-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Proxy</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-green-600 font-bold">1.</span> Sistema de Cache de Imagens
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Controlar acesso a imagens com lazy loading e cache para evitar recarregamentos.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">structural_patterns/proxy/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="structural_patterns/proxy/exercicios/1/README.md" target="_blank" class="ml-4 text-green-600 hover:text-green-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Padrões Comportamentais -->
+        <section class="mb-12">
+            <div class="gradient-behavioral text-white rounded-t-lg px-6 py-4">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-brain mr-3"></i>
+                    Padrões Comportamentais (11 padrões, 55 exercícios)
+                </h2>
+            </div>
+            
+            <div class="bg-white rounded-b-lg shadow-lg p-6 space-y-8">
+                <!-- Strategy -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Strategy</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Cálculo de Desconto
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Encapsular diferentes algoritmos de desconto (Regular, VIP, Student) em classes separadas.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/strategy/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/strategy/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">2.</span> Sistema de Compressão de Arquivos
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Encapsular diferentes algoritmos de compressão (ZIP, RAR, 7Z) em classes separadas.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/strategy/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/strategy/exercicios/2/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observer -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Observer</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Notificações de Estoque
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Notificar múltiplos componentes (Email, Dashboard, Mobile) sobre mudanças no estoque.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/observer/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/observer/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">2.</span> Sistema de Monitoramento de Preços
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Notificar múltiplos componentes (Email, Dashboard, Mobile, PriceAlert) sobre mudanças de preço.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/observer/exercicios/2/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/observer/exercicios/2/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chain of Responsibility -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Chain of Responsibility</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Aprovação de Despesas
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Encadear handlers de aprovação (Supervisor, Gerente, Diretor, CEO) conforme valor da despesa.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/chain_of_responsibility/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/chain_of_responsibility/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Command -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Command</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Controle de Dispositivos Smart Home
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Encapsular comandos de dispositivos (luzes, termostato, portas) com suporte a undo/redo e macros.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/command/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/command/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- State -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">State</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Máquina de Vendas
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Máquina de vendas que muda comportamento conforme estado (SemMoeda, ComMoeda, Vendendo, SemProduto).</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/state/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/state/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template Method -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Template Method</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Processamento de Dados
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Definir fluxo fixo (validar → normalizar → processar → salvar) e deixar subclasses implementarem passos.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/template_method/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/template_method/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interpreter -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Interpreter</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Interpretador de Expressões Matemáticas
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Criar representação estruturada de expressões matemáticas para avaliação.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/interpreter/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/interpreter/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Iterator -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Iterator</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Iteração de Coleções
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Fornecer interface uniforme de iteração para diferentes tipos de coleções (Array, Set, Map).</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/iterator/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/iterator/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mediator -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Mediator</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Coordenação de Componentes UI
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Centralizar comunicação entre componentes UI (Button, TextField, Checkbox) sem referências diretas.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/mediator/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/mediator/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memento -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Memento</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Histórico de Configurações
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Salvar e restaurar estados de configurações sem violar encapsulamento, com suporte a undo/redo.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/memento/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/memento/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visitor -->
+                <div class="pattern-card border-l-4 border-red-500 pl-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold mr-3">Visitor</span>
+                        <span class="text-gray-600 text-sm">5 exercícios</span>
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="exercise-card bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-semibold text-gray-800 mb-2">
+                                        <span class="text-red-600 font-bold">1.</span> Sistema de Análise de Estrutura de Dados
+                                    </h4>
+                                    <p class="text-gray-600 text-sm mb-3">Aplicar diferentes análises (Validação, Serialização, Otimização) sobre estruturas de dados sem modificar classes.</p>
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-folder mr-2"></i>
+                                        <code class="code-block bg-gray-200 px-2 py-1 rounded">behavioral_patterns/visitor/exercicios/1/</code>
+                                    </div>
+                                </div>
+                                <a href="behavioral_patterns/visitor/exercicios/1/README.md" target="_blank" class="ml-4 text-red-600 hover:text-red-800">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg shadow-lg p-8 mb-8">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Como Usar os Exercícios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                        <i class="fas fa-book-reader text-4xl mb-3"></i>
+                        <h3 class="font-bold mb-2">1. Leia o Problema</h3>
+                        <p class="text-sm">Cada exercício tem um README.md com descrição completa do problema.</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                        <i class="fas fa-project-diagram text-4xl mb-3"></i>
+                        <h3 class="font-bold mb-2">2. Analise a Solução</h3>
+                        <p class="text-sm">Cada README inclui um diagrama PlantUML sugerindo a estrutura da solução.</p>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                        <i class="fas fa-code text-4xl mb-3"></i>
+                        <h3 class="font-bold mb-2">3. Implemente</h3>
+                        <p class="text-sm">Crie a implementação em TypeScript seguindo o padrão e os critérios de avaliação.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400">© 2024 Design Patterns - Material Didático</p>
+            <p class="text-gray-500 text-sm mt-2">50+ exercícios práticos cobrindo os 23 padrões GoF</p>
+        </div>
+    </footer>
+</body>
+</html>
+

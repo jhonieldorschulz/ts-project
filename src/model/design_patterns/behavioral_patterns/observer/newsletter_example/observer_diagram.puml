@@ -1,0 +1,20 @@
+@startuml Observer_Newsletter
+interface Observer {
+  +update()
+}
+class Newsletter {
+  +subscribe()
+  +unsubscribe()
+  +publish()
+}
+class UserObserver {
+  +name
+  +inbox
+  +update()
+}
+
+Observer <|.. UserObserver
+Newsletter --> Observer
+@enduml
+
+

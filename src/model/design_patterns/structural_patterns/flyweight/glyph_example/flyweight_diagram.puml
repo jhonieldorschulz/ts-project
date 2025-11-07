@@ -1,0 +1,10 @@
+@startuml Flyweight_Glyph
+class Font { +family; +size }
+class FontFactory { +getFont(); +cacheSize() }
+class Glyph { +char; +x; +y; +render() }
+
+FontFactory --> Font
+Glyph --> Font
+@enduml
+
+

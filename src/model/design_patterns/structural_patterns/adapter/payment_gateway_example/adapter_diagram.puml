@@ -1,0 +1,24 @@
+@startuml Adapter_Payment
+interface PaymentProcessor {
+  +pay(amountCents: number): string
+}
+
+class LegacyGateway {
+  +processarPagamento(valorReais: number): boolean
+}
+
+class LegacyGatewayAdapter {
+  +pay(amountCents: number): string
+}
+
+PaymentProcessor <|.. LegacyGatewayAdapter
+LegacyGatewayAdapter --> LegacyGateway
+
+class Application {
+  -processor: PaymentProcessor
+  +checkout(amountCents: number): string
+}
+Application --> PaymentProcessor
+@enduml
+
+

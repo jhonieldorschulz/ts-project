@@ -1,0 +1,13 @@
+@startuml Singleton_Logger
+class Logger {
+  -instance: Logger
+  -logs: string[]
+  -Logger()
+  +getInstance(): Logger
+  +info(message: string): void
+  +error(message: string): void
+  +getLogs(): string[]
+}
+@enduml
+
+

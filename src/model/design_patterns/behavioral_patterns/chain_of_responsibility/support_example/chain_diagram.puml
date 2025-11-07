@@ -1,0 +1,14 @@
+@startuml Chain_Support
+abstract class Handler { +setNext(); +handle(); #process() }
+class L1Handler
+class L2Handler
+class L3Handler
+
+Handler <|-- L1Handler
+Handler <|-- L2Handler
+Handler <|-- L3Handler
+L1Handler --> Handler : next
+L2Handler --> Handler : next
+@enduml
+
+

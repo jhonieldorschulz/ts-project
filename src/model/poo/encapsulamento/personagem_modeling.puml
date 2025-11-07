@@ -1,0 +1,15 @@
+
+@startuml
+class Personagem{
+    -tipo: string 
+    -score_life: number 
+    -poderes: list<any> 
+    -habilidades: list<any> 
+
+    +correr(): void 
+    +andar(): void
+    +lutar(): void 
+    +fugir(): void 
+}
+
+@enduml

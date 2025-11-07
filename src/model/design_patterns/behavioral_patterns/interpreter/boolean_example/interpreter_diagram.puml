@@ -1,0 +1,14 @@
+@startuml Interpreter_Boolean
+interface Expr { +eval() }
+class Var { +name }
+class And { +left; +right }
+class Or { +left; +right }
+class Not { +expr }
+
+Expr <|.. Var
+Expr <|.. And
+Expr <|.. Or
+Expr <|.. Not
+@enduml
+
+

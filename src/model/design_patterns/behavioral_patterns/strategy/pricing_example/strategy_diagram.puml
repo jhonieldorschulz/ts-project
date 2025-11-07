@@ -1,0 +1,21 @@
+@startuml Strategy_Pricing
+interface PricingStrategy {
+  +calculate()
+}
+class RegularPricing
+class BlackFridayPricing
+class VipPricing
+
+PricingStrategy <|.. RegularPricing
+PricingStrategy <|.. BlackFridayPricing
+PricingStrategy <|.. VipPricing
+
+class PricingContext {
+  -strategy: PricingStrategy
+  +setStrategy()
+  +finalPrice()
+}
+PricingContext --> PricingStrategy
+@enduml
+
+
