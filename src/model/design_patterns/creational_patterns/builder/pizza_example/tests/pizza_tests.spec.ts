@@ -18,7 +18,7 @@ describe('Builder Pizza Example', () => {
 
   test('Builder can be used directly for custom pizza', () => {
     const builder = new ClassicPizzaBuilder();
-    const custom = builder.reset().size('SMALL').withCheese().withBacon().build();
+    const custom = builder.reset().size('SMALL').build();
     expect(custom.toString()).toContain('SMALL');
     expect(custom.toString()).toContain('bacon');
   });

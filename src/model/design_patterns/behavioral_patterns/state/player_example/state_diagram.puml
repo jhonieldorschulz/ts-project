@@ -1,8 +1,15 @@
 @startuml State_Player
-interface PlayerState { +play(); +pause() }
+interface PlayerState {
+    +play();
+    +pause()
+}
 class PlayingState
 class PausedState
-class Player { -state: PlayerState; +play(); +pause() }
+class Player {
+    -state: PlayerState;
+    +play();
+    +pause()
+}
 
 PlayerState <|.. PlayingState
 PlayerState <|.. PausedState

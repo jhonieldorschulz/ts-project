@@ -1,0 +1,63 @@
+@startuml
+package "Products" {
+  interface Notification {
+    +show(): string
+    +dismiss(): void
+  }
+  
+  interface Toast {
+    +display(): string
+    +hide(): void
+  }
+  
+  class WebNotification
+  class MobileNotification
+  class DesktopNotification
+  
+  class WebToast
+  class MobileToast
+  class DesktopToast
+  
+  Notification <|.. WebNotification
+  Notification <|.. MobileNotification
+  Notification <|.. DesktopNotification
+  
+  Toast <|.. WebToast
+  Toast <|.. MobileToast
+  Toast <|.. DesktopToast
+}
+
+package "Factory" {
+  interface NotificationFactory {
+    +createNotification(): Notification
+    +createToast(): Toast
+  }
+  
+  class WebNotificationFactory
+  class MobileNotificationFactory
+  class DesktopNotificationFactory
+  
+  NotificationFactory <|.. WebNotificationFactory
+  NotificationFactory <|.. MobileNotificationFactory
+  NotificationFactory <|.. DesktopNotificationFactory
+  
+  WebNotificationFactory --> WebNotification
+  WebNotificationFactory --> WebToast
+  MobileNotificationFactory --> MobileNotification
+  MobileNotificationFactory --> MobileToast
+  DesktopNotificationFactory --> DesktopNotification
+  DesktopNotificationFactory --> DesktopToast
+}
+
+package "Client" {
+  class NotificationManager {
+    -factory: NotificationFactory
+    +constructor(factory: NotificationFactory)
+    +sendAlert(message: string): string[]
+  }
+  
+  NotificationManager --> NotificationFactory
+  NotificationManager --> Notification
+  NotificationManager --> Toast
+}
+@enduml
