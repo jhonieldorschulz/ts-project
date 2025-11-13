@@ -1,7 +1,17 @@
 @startuml Prototype_Shape
-interface Prototype { +clone() }
-abstract class Shape { +x; +y; +color; +area(); +clone() }
-class Circle { +radius }
+interface Prototype {
+    +clone()
+}
+abstract class Shape {
+    +x;
+    +y;
+    +color;
+    +area();
+    +clone()
+}
+class Circle {
+    +radius
+}
 
 Prototype <|.. Shape
 Shape <|-- Circle
